@@ -1,0 +1,62 @@
+/*Nav Bar*/
+nav {
+    font-family: Roboto, Arial;
+
+}
+
+.navbar {
+    font-size: 110%;
+}
+
+/*Body*/
+body {
+<<<<<<< HEAD
+    font-family: Roboto, Arial;
+=======
+    font-family: 'Courier New', Courier, monospace;
+>>>>>>> e9d2f3a0f58a29a6eeaa9e81b396101f8980c80d
+    padding-top: 0px;
+    overflow: auto;
+    margin: 0;
+    background-color: #343a40;
+}
+
+/*Card*/
+.card {
+    float: none;
+    color: white;
+    background-color: black;
+    border: 0px
+}
+
+.card-body{
+    color: black;
+    background-color: white;
+    border-radius: 10px;
+    font-weight: 500;
+}
+
+/*Container*/
+.container {
+    font-family: Roboto, Arial;
+    padding-right: 25px;
+    padding-left: 25px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.light-text {
+    color: white
+}
+
+.footer {
+    color: white;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+.header {
+    background-color: black;
+    padding-bottom: 1px;
+}
