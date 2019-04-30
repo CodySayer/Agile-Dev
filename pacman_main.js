@@ -16,7 +16,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: true
 }));
-
+hbs.registerPartials(__dirname+'/views/partials');
 app.use(express.static('views')); 
 
 app.set('view engine', 'hbs');
