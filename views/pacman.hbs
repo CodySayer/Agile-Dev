@@ -5,6 +5,7 @@
 <link rel="stylesheet" href="pacman.css">
 </head>
 <body id="map">
+  {{>Navbar}}
 <img id="pacman" src="Assets/pacmansmallgif.gif"></img>
 <p id="title">PAC-MAN</p>
 <p id="score">0</p>
@@ -15,7 +16,6 @@
     <input type="submit" id="submitbutton" onclick="getscore()" value="Submit Score"></button>
   </form>
 </div>
-<a href = "/"><button type="button" id="homebutton">LOGOUT</button></a>
 <div id="arrows">
   <img src="Assets/up.png" onclick="direction(0)">
   <img src="Assets/down.png" onclick="direction(1)">

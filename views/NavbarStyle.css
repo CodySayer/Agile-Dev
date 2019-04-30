@@ -48,6 +48,20 @@ li.dropdown {
 }
 
 .dropdown-content a:hover {
-    background-color: #696969;
+    background-color: #696969
 }
 
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.wordart {
+  font-family: Arial, sans-serif;
+  font-size: 4em;
+  font-weight: bold;
+  position: relative;
+  z-index: 1;
+  display: inline-block;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
