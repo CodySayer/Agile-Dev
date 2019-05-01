@@ -126,7 +126,10 @@ body{
 
 </style>
 </head>
-<body id="map">
+<body>
+  <div id="map">
+
+  </div>
 <img id="pacman" src="Assets/pacmansmallgif.gif"></img>
 <p id="title">PAC-MAN</p>
 <p id="score">0</p>
@@ -150,8 +153,8 @@ body{
   <p id="personalhighscore">Hi <b>{{username}}</b>!<br>Your high score: <b>{{highscore}}</b></p>
 </div>
 <script>
-  var basex = 737;
-  var basey = 160;
+  var basex = 0;
+  var basey = 0;
 
   var pacimg = 1;
   var pac_xdir = 0;
