@@ -23,6 +23,7 @@
     "cookie-parser": "^1.4.4",
     "express": "^4.16.4",
     "hbs": "^4.0.3",
-    "mongodb": "^3.2.3"
+    "mongodb": "^3.2.3",
+    "socket.io": "^2.2.0"
   }
 }

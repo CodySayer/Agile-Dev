@@ -161,7 +161,6 @@ body{
   var pac_ydir = 0;
   var pac_y = basey + 256;
   var pac_x = basex + 224;
-  console.log("y = " + pac_y + " x = " + pac_x)
   var ghost_dir_y = [-1,-1,-1,-1];
   var ghost_dir_x = [0,0,0,0];
   var ghost_x=[];
@@ -201,7 +200,7 @@ body{
   }
 
   function eat(){
-        if((pac_x - basex) % 16 == 8 || (pac_y - basey) % 16 == 8){
+    if((pac_x - basex) % 16 == 8 || (pac_y - basey) % 16 == 8){
       if(pac_ydir==1){
         if(processed_map[(pac_y - basey -8)/16 + pac_ydir][(pac_x - basex)/16] == 9){
           score += 100
@@ -448,10 +447,6 @@ body{
 
   }
 
-  function submitscore() {
-    
-  }
-
   function pac_death() {
     if (first) {
       first = false;
@@ -472,8 +467,6 @@ body{
           world_map.innerHTML += "<div class='dot' id='dot" +i.toString() + "_" + j.toString() + "'></img>";
           document.getElementById("dot" + i.toString() + "_" + j.toString()).style.left = (j*16 + basex) +"px";
           document.getElementById("dot" + i.toString() + "_" + j.toString()).style.top = (i*16 + basey) +"px";
-        }else if(draw_map[i][j] == 1){
-
         }
       }
     }
