@@ -6,28 +6,6 @@
 </head>
 <body id="map">
   {{>Navbar}}
-  <div>
-    <ul id="messages"></ul>
-    <form action="">
-      <input id="m" autocomplete="off" /><button>Send</button>
-    </form>
-    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
-    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
-    <script>
-      $(function () {
-        var socket = io();
-        $('form').submit(function () {
-          socket.emit('chat message', $('#m').val());
-          $('#m').val('');
-          return false;
-        });
-        socket.on('chat message', function (msg) {
-          $('#messages').append($('<li>').text(msg));
-          window.scrollTo(0, document.body.scrollHeight);
-        });
-      });
-    </script>
-  </div>
 <img id="pacman" src="Assets/pacmansmallgif.gif"></img>
 <p id="title">PAC-MAN</p>
 <p id="score">0</p>
@@ -39,10 +17,27 @@
   </form>
 </div>
 <div id="arrows">
-  <img src="Assets/up.png" onclick="direction(0)">
-  <img src="Assets/down.png" onclick="direction(1)">
-  <img src="Assets/left.png" onclick="direction(2)">
-  <img src="Assets/right.png" onclick="direction(3)">
+  <ul id="messages"></ul>
+  <form action="">
+    <input id="m" autocomplete="off" /><button>Send</button>
+  </form>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+  <script>
+    console.log("we reached here")
+    $(function () {
+      var socket = io();
+      $('form').submit(function () {
+        socket.emit('chat message', $('#m').val());
+        $('#m').val('');
+        return false;
+      });
+      socket.on('chat message', function (msg) {
+        $('#messages').append($('<li>').text(msg));
+        window.scrollTo(0, document.body.scrollHeight);
+      });
+    });
+  </script>
 </div>
 <div id="highscorebox">
   <p id="highscoretitle">High Scores</p>

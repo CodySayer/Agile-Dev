@@ -238,8 +238,9 @@ app.get('/chat', (request, response) => {
 
 //! SOCKET IO CODE TRIAL
 io.on('connection', function (socket) {
+    console.log("connect")
     socket.on('chat message', function (msg) {
-        console.log("message emit")
+        console.log(msg)
         io.emit('chat message', msg);
     });
 });

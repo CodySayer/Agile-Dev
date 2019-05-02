@@ -4,7 +4,7 @@ ul {
     padding: 0;
     overflow: hidden;
     background-color: #696969;
-    width: 100vw;
+    width: 100%;
 }
 
 li {

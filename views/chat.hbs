@@ -61,7 +61,7 @@
     <form action="">
         <input id="m" autocomplete="off" /><button>Send</button>
     </form>
-    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
     <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
     <script>
         console.log("we reached here")
@@ -70,13 +70,11 @@
             $('form').submit(function () {
                 socket.emit('chat message', $('#m').val());
                 $('#m').val('');
-                console.log("we reached here1")
                 return false;
             });
             socket.on('chat message', function (msg) {
-                $('messages').append($('<li>').text(msg));
+                $('#messages').append($('<li>').text(msg));
                 window.scrollTo(0, document.body.scrollHeight);
-                console.log("we reached here2")
             });
         });
     </script>
