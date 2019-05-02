@@ -3,56 +3,13 @@
 
 <head>
     <meta charset="uft-8">
-    <title>PAC-MAN</title>
-    <style>
-        body {background-color: #000000}
-        .logo {
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-            padding-bottom: 4%;
-        }
-        #title{
-            text-align: center;
-            color: white;
-            font-size: 4em;
-            line-height: 0;
-        }
-        .text{
-            text-align: center;
-            color: white;
-        }
-        #footer {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-        }
-        #registerbutton {
-            position: fixed;
-            top: 5px;
-            right: 5px;
-            font-size: 24px;
-            background-color: black;
-            color: white;
-            border: 2px solid white;
-        }
-        #submitbutton {
-            font-size: 24px;
-            background-color: black;
-            color: white;
-            border: 2px solid white;
-        }
-        #errortext {
-        color: red
-         }
-    </style>
+    <title>POC-MAN</title>
+    <link rel="stylesheet" href="home.css">
 </head>
-
 <body>
-    <p id="title">PAC-MAN</p>
+{{>Navbar}}
+    <p id="title">POC-MAN</p>
     <img class="logo" src="Assets/logo.png">
-
-<a href = "/register"><button type="button" id="registerbutton">REGISTER</button></a>
 
 <form class="text" method="post" action="/login">
     <label style="font-size: 2em">LOGIN</label><br>

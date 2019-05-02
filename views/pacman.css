@@ -1,0 +1,121 @@
+#title{
+  text-align: center;
+  font-size: 36px;
+  color: red;
+}
+body{
+  background-color: #000000;
+}
+#pacman{
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  top: 416px;
+  left: 961px;
+  z-index: 10;
+}
+.wall1{
+  background-image: url("Assets/wall.png");
+  width: 16px;
+  height: 16px;
+  position: absolute;
+}
+.wall2{
+  background-image: url("Assets/notwall.png");
+  width: 16px;
+  height: 16px;
+  position: absolute;
+}
+.wall3{
+  background-image: url("Assets/ghostwall.png");
+  width: 16px;
+  height: 16px;
+  position: absolute;
+}
+.dot{
+  background-image: url("Assets/pellet.png");
+  width: 16px;
+  height: 16px;
+  position: absolute;
+}
+#homebutton {
+    position: fixed;
+    top: 5px;
+    right: 5px;
+    font-size: 24px;
+    background-color: black;
+    color: white;
+    border: 2px solid white;
+}
+#arrows {
+  position: fixed;
+  bottom: 5%;
+  left: 41%;
+}
+#highscorebox {
+  position: fixed;
+  top: 100px;
+  right: 5px;
+  border: 2px solid white;
+  width: 300px;
+  height: 280px;
+}
+#highscorelist {
+  color: white;
+  font-size: 16px;
+  padding-left: 10px;
+}
+#highscoretitle {
+  color: white;
+  font-size: 24px;
+  text-align: center;
+  padding-top: 0;
+}
+#personalhighscore {
+  color: white;
+  font-size: 16px;
+  text-align: center;
+}
+#ghost0{
+  background-image: url("Assets/blue.gif");
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  z-index: 10;
+}
+#ghost1{
+  background-image: url("Assets/orange.gif");
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  z-index: 10;
+}
+#ghost2{
+  background-image: url("Assets/pink.gif");
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  z-index: 10;
+}
+#ghost3{
+  background-image: url("Assets/red.gif");
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  z-index: 10;
+}
+#score {
+  margin-top: -40px;
+  text-align: center;
+  font-size: 24px;
+  color: white;
+}
+#submitbutton {
+  font-size: 16px;
+  background-color: black;
+  color: white;
+  border: 2px solid white;
+  position: absolute;
+  margin-left: -3%;
+}
+

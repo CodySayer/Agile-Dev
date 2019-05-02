@@ -211,7 +211,6 @@ app.get('/pacman', (request, response) => {
             })
             highscores = highscores.join("\n");
             response.render('pacman.hbs', {
-                content: content,
                 values: maper.map(),
                 width: 28,
                 highscores: highscores,
