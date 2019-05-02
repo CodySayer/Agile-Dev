@@ -6,8 +6,12 @@ const maper = require('./pacman_read_file')
 const cookieParser = require('cookie-parser');
 const bcrypt = require("bcrypt");
 const mongodb = require("mongodb");
-
 var app = express();
+const http = require('http').Server(app);
+const io = require('socket.io')(http);
+var sioport = process.env.PORT || 3000;
+
+//var app = express();
 
 // Create a database variable outside of the database connection callback to reuse the connection pool
 var db;
@@ -24,10 +28,15 @@ mongodb.MongoClient.connect(process.env.MONGODB_URI || "mongodb://localhost:2701
     console.log("Database connection ready");
 
     // Initialize the app
-    var server = app.listen(process.env.PORT || 8080, function () {
+    var server = http.listen(process.env.PORT || 8080, function () {
         var port = server.address().port;
         console.log("App now running on port ", port);
     });
+
+/*     //! server for socket.io
+    http.listen(sioport, function () {
+        console.log('HTTP now listening on port ' + sioport);
+    }); */
 });
 
 // Register partials
@@ -220,5 +229,20 @@ app.get('/pacman', (request, response) => {
         });
     }
 })
+
+app.get('/chat', (request, response) => {
+    response.render('chat.hbs', {
+        errortext: ""
+    });
+})
+
+//! SOCKET IO CODE TRIAL
+io.on('connection', function (socket) {
+    socket.on('chat message', function (msg) {
+        console.log("message emit")
+        io.emit('chat message', msg);
+    });
+});
+
 
 

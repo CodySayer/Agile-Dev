@@ -6,6 +6,28 @@
 </head>
 <body id="map">
   {{>Navbar}}
+  <div>
+    <ul id="messages"></ul>
+    <form action="">
+      <input id="m" autocomplete="off" /><button>Send</button>
+    </form>
+    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+    <script>
+      $(function () {
+        var socket = io();
+        $('form').submit(function () {
+          socket.emit('chat message', $('#m').val());
+          $('#m').val('');
+          return false;
+        });
+        socket.on('chat message', function (msg) {
+          $('#messages').append($('<li>').text(msg));
+          window.scrollTo(0, document.body.scrollHeight);
+        });
+      });
+    </script>
+  </div>
 <img id="pacman" src="Assets/pacmansmallgif.gif"></img>
 <p id="title">PAC-MAN</p>
 <p id="score">0</p>
@@ -26,7 +48,8 @@
   <p id="highscoretitle">High Scores</p>
   <pre id="highscorelist">{{highscores}}</p>
   <p id="personalhighscore">Hi <b>{{username}}</b>!<br>Your high score: <b>{{highscore}}</b></p>
-  <div id="chat">{{> card}}</div>
+  {{!-- Old database dependant code --}}
+  {{!-- <div id="chat">{{> card}}</div> --}}
   <br>
 </div>
 {{!-- <script>
@@ -38,8 +61,8 @@
     };
 </script> --}}
 <script>
-  var basex = 737;
-  var basey = 160;
+  var basex = 0;
+  var basey = 0;
 
   var pacimg = 1;
   var pac_xdir = 0;
