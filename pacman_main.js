@@ -32,11 +32,6 @@ mongodb.MongoClient.connect(process.env.MONGODB_URI || "mongodb://localhost:2701
         var port = server.address().port;
         console.log("App now running on port ", port);
     });
-
-/*     //! server for socket.io
-    http.listen(sioport, function () {
-        console.log('HTTP now listening on port ' + sioport);
-    }); */
 });
 
 // Register partials
@@ -162,50 +157,6 @@ app.post('/submit', (request, response) => {
             })
 })
 
-//! Start chat code
-function chatQuery () {
-    var cursor = db.collection('posts').find().toArray()
-
-    var content = [];
-    var count = 10;
-    for (i = 0; i < count; i++) {
-        content[i] = ['Posted by ' + JSON.stringify(cursor[i].username) +
-            ' on ' + JSON.stringify(cursor[i].datetime) + '<br>' +
-            '&nbsp;&nbsp; Message: ' + JSON.stringify(cursor[i].content)
-        ];
-    };
-    var content = content.join('<br> <br>');
-    return content
-}
-
-app.post('/chat/submit', function (request, response) {
-    var monthNames = [
-        "January", "February", "March",
-        "April", "May", "June", "July",
-        "August", "September", "October",
-        "November", "December"
-    ];
-    var date = new Date()
-    var day = date.getDate();
-    var monthIndex = date.getMonth();
-    var year = date.getFullYear();
-    var date = day + ' ' + monthNames[monthIndex] + ' ' + year;
-
-    var postid = Math.floor(Math.random() * 90000000) + 10000000;
-    var username = request.body.username;
-    var content = request.body.content;
-    db.collection(POSTS_COLLECTION).insertOne({
-        postid: postid,
-        datetime: date,
-        username: username,
-        content: content
-    }, (err, result) => {
-        if (err) {
-            response.send('Unable to create post');
-        }
-    });
-});
-//! End chat code
 
 app.get('/pacman', (request, response) => {
     if (request.cookies.username == undefined) {
@@ -219,7 +170,7 @@ app.get('/pacman', (request, response) => {
                 return highscore['username'] + " ".repeat(spaces) + highscore['highscore']
             })
             highscores = highscores.join("\n");
-            response.render('pacman.hbs', {
+            response.render('chat.hbs', {
                 values: maper.map(),
                 width: 28,
                 highscores: highscores,
@@ -230,17 +181,8 @@ app.get('/pacman', (request, response) => {
     }
 })
 
-app.get('/chat', (request, response) => {
-    response.render('chat.hbs', {
-        errortext: ""
-    });
-})
-
-//! SOCKET IO CODE TRIAL
 io.on('connection', function (socket) {
-    console.log("connect")
     socket.on('chat message', function (msg) {
-        console.log(msg)
         io.emit('chat message', msg);
     });
 });
