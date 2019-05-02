@@ -154,27 +154,20 @@ app.post('/submit', (request, response) => {
 })
 
 //! Start chat code
-app.get('/chat', function (request, response) {
-    var cursor = db.collection('posts').find().toArray((err, result) => {
-        if (err) {
-            response.send('Unable to get posts');
-        }
-        var content = [];
-        var count = Object.keys(result).length;
-        for (i = 0; i < count; i++) {
-            content[i] = ['Posted by ' + JSON.stringify(result[i].username) +
-                ' on ' + JSON.stringify(result[i].datetime) + '<br>' +
-                '&nbsp;&nbsp; Message: ' + JSON.stringify(result[i].content)
-            ];
-        };
-        var content = content.join('<br> <br>');
-        response.render('pacman.hbs', {
-            year: new Date().getFullYear(),
-            content: content
-        });
+function chatQuery () {
+    var cursor = db.collection('posts').find().toArray()
 
-    });
-});
+    var content = [];
+    var count = 10;
+    for (i = 0; i < count; i++) {
+        content[i] = ['Posted by ' + JSON.stringify(cursor[i].username) +
+            ' on ' + JSON.stringify(cursor[i].datetime) + '<br>' +
+            '&nbsp;&nbsp; Message: ' + JSON.stringify(cursor[i].content)
+        ];
+    };
+    var content = content.join('<br> <br>');
+    return content
+}
 
 app.post('/chat/submit', function (request, response) {
     var monthNames = [
