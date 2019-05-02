@@ -4,12 +4,12 @@ ul {
     padding: 0;
     overflow: hidden;
     background-color: #696969;
-    width: 100vw;
+    width: 100%;
 }
 
 li {
     float: left;
-    border-right: 2px dotted #b6ced4;
+    border-right: 2px #b6ced4;
 }
 
 li a, .dropbtn {
@@ -62,6 +62,4 @@ li.dropdown {
   position: relative;
   z-index: 1;
   display: inline-block;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
