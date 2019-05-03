@@ -59,3 +59,4 @@ typings/
 
 # next.js build output
 .next
+mongo-data/journal/WiredTigerPreplog.0000000002

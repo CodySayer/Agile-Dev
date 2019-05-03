@@ -45,8 +45,8 @@
   <p id="personalhighscore">Hi <b>{{username}}</b>!<br>Your high score: <b>{{highscore}}</b></p>
   <br>
 </div>
-<script src = "pacman.js">
-      var basex = 0;
+<script>
+    var basex = 0;
     var basey = 0;
     var pacimg = 1;
     var pac_xdir = 0;
@@ -64,6 +64,10 @@
 
     var score = 0; 
     var first = true;
+
+    var processed_map = proc_map([{{values}}], {{width}});
+    pacman_map(processed_map,{{width}});
+    pacman_pallets(processed_map, {{width}});
 
     function getscore() {
         document.getElementById("scoresubmit").value = score
@@ -367,9 +371,6 @@
         }
     }
     console.log('please no cheating')
-var processed_map = proc_map([{{values}}], {{width}});
-pacman_map(processed_map,{{width}});
-pacman_pallets(processed_map, {{width}});
 </script>
 </body>
 </html>
