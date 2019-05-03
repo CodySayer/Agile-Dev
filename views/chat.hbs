@@ -144,18 +144,25 @@
     </nav>
 </div>
 <br>
-<div id="map" class="container col-xl-10 col-lg-12 col-md-12">
-    <img id="pacman" src="Assets/pacmansmallgif.gif"></img>
+<div class="container col-xl-10 col-lg-12 col-md-12">
+    <div>
     <p id="title">PAC-MAN</p>
+    <br>
+    <br>
     <p id="score">0</p>
-    <h5 class="card-title">High Scores</h5>
-    <p class="card-text">
-        <form action="/submit" method="post">
+    <br>
+
+        <form action="/submit" method="post" class="container col-xl-10 col-lg-12 col-md-12 text-center">
             <input type="hidden" id="username" name="username" value={{username}}>
             <input type="hidden" id="scoresubmit" name="score" value=0>
-            <input type="submit" id="submitbutton" onclick="getscore()" value="Submit Score"></button>
+            <button class="btn btn-primary btn-xs text-center" type="button" type="submit" onclick="getscore()">Submit</button>
         </form>
-    </p>
+    </div>
+    <div class="container col-xl-10 col-lg-12 col-md-12">
+        <div id="map" style="width: 1280px; height:720px; object-fit:contain;">
+            <img id="pacman" src="Assets/pacmansmallgif.gif"></img>
+        </div>
+    </div>
 </div>
 <br>
 <div class="container col-xl-10 col-lg-12 col-md-12 col-sm-12">
@@ -165,12 +172,8 @@
         <!--! you can have more or less cards, just remember Bootstrap natively has 12 columns-->
         <!--* check bootstrap documentation on columns and cards for more information-->
         <div class="card col-lg-6 col-sm-12 text-light" style="background-color: rgba(0,0,0,0.4);">
-            <div class="card-body">
+            <div class="card-body" style="height:720px; object-fit:contain; overflow: scroll;">
                 <h5 class="card-title">Chat</h5>
-                <ul id="messages"></ul>
-                <form action="">
-                    <input id="m" autocomplete="off" /><button>Send</button>
-                </form>
                 <script src="/socket.io/socket.io.js"></script>
                 <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
                 <script>
@@ -188,12 +191,15 @@
                         });
                     });
                 </script>
+                <ul id="messages"></ul>
+                <form action="">
+                    <input id="m" autocomplete="off" /><button>Send</button>
+                </form>
             </div>
         </div>
         <div class="card col-lg-6 col-sm-12 text-light" style="background-color: rgba(0,0,0,0.4);">
-            <div id="highscorebox" class="card-body">
+            <div id="highscorebox" class="card-body" style="height:720px; object-fit:contain;">
                 <h5 class="card-title">High-Scores</h5>
-                <p id="highscoretitle">High Scores</p>
                 <pre id="highscorelist">{{highscores}}</p>
                 <p id="personalhighscore">Hi <b>{{username}}</b>!<br>Your high score: <b>{{highscore}}</b></p>
                 <br>
