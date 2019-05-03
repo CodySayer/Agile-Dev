@@ -315,8 +315,6 @@ var basex = 0;
           world_map.innerHTML += "<div class='dot' id='dot" +i.toString() + "_" + j.toString() + "'></img>";
           document.getElementById("dot" + i.toString() + "_" + j.toString()).style.left = (j*16 + basex) +"px";
           document.getElementById("dot" + i.toString() + "_" + j.toString()).style.top = (i*16 + basey) +"px";
-        }else if(draw_map[i][j] == 1){
-
         }
       }
     }
