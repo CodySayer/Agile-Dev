@@ -3,57 +3,15 @@
 
 <head>
     <meta charset="uft-8">
-    <title>PAC-MAN</title>
-    <style>
-        body {background-color: #000000}
-        .logo {
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-            padding-bottom: 4%;
-        }
-        #title{
-            text-align: center;
-            color: white;
-            font-size: 4em;
-            line-height: 0;
-        }
-        .text{
-            text-align: center;
-            color: white;
-        }
-        #footer {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-        }
-        #homebutton {
-            position: fixed;
-            top: 5px;
-            right: 5px;
-            font-size: 24px;
-            background-color: black;
-            color: white;
-            border: 2px solid white;
-        }
-        #submitbutton {
-            font-size: 24px;
-            background-color: black;
-            color: white;
-            border: 2px solid white;
-        }
+<link rel="stylesheet" href="register.css">
 
-        #errortext {
-            color: red
-        }
-    </style>
 </head>
 
 <body>
+    {{>Navbar}}
     <p id="title">PAC-MAN</p>
     <img class="logo" src="Assets/logo.png">
 
-<a href = "/"><button type="button" id="homebutton">HOME</button></a>
 
 <form class="text" method="post" action="/register">
     <label style="font-size: 2em">REGISTER</label><br>
@@ -67,7 +25,6 @@
 
 </body>
 <footer id="footer">
-    <p class="text">A project by Francis Gau, Brody Voth, and Tuan Vo</p>
     <p class="text">Copyright 2019</p>
 </footer>
 </html>
