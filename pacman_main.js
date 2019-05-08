@@ -170,7 +170,7 @@ app.get('/pacman', (request, response) => {
                 return highscore['username'] + " ".repeat(spaces) + highscore['highscore']
             })
             highscores = highscores.join("\n");
-            response.render('chat.hbs', {
+            response.render('pacman.hbs', {
                 values: maper.map(),
                 width: 28,
                 highscores: highscores,

@@ -1,321 +1,529 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<!--! this bootstrap skeleton was written by Cody Sayer. If you're gonna poach my work and use it for yourself, leave the footer so people know the real mastermind.-->
+
 <head>
-<title>PAC-MAN</title>
-<link rel="stylesheet" href="pacman.css">
+    <!--! most of the classes you will see in this code is calling items from Bootstrap-->
+    <!--! Bootstrap is very handy because it allows a very pretty scaleable website for a multitude of devices-->
+    <!--! you will see classes with names like col-lg-x or col-md-x. These dictate item width on different screen sizes-->
+    <!--! Bootstrap natively has 12 columns to use at any given time which scale horizontally evenly based on screen size-->
+    <!--! I really suggest you touch up a little on Bootstrap documentation. It's not complex and very handy to know how to implement-->
+    <!--! furthermore, when googling how to implement something, I suggest you throw 'Bootstrap' in the search term. It might make things a little easier-->
+
+    <!--* this meta tag allows the website to scale based on screen size-->
+    <meta name="viewport" content="width=device-width">
+    <!--* This meta tag just sets the text to unicode 8-->
+    <meta charset="UTF-8">
+
+    <!--* the following code block sets colors for various mobile clients (including windows phone lol)-->
+    <!--* change the hex value to change the color it will set the browser bar-->
+    <!-- Chrome, Firefox OS and Opera -->
+    <meta name="theme-color" content="#FF0090">
+    <!-- Windows Phone -->
+    <meta name="msapplication-navbutton-color" content="#FF0090">
+    <!-- iOS Safari -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="#FF0090">
+
+    <!--* this sets the title of the webpage, what displays in the tab title-->
+    <title id="headermessage">P0c-Man</title>
+    <!--* this just calls the Bootstrap stylesheet-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <!--* This sets the favicon to an image. You can change the URL to change the image-->
+    <link rel="icon" href="http://drive.google.com/uc?export=view&id=1h9oN703lENBKW_68h_P47ZxbUvzkFWBK">
+    <!--* Script tags contain javasctipt. Duh. Use this to include any javascript you write in the page-->
+    <link rel="stylesheet" href="pacman.css">
+    <script>
+        //* this runs the headerChange and footerChange function on page load
+        window.onload = function () {
+            //! if you want to disable headerChange, remove the headerChange(); line
+            headerChange();
+            //* please leave footerChange intact
+            footerChange();
+        }
+        //* the function that selects a random string from the array to insert into the header
+        var headerChange = function () {
+            //* the array of phrases to insert
+            //! if adding or removing phrases, make sure the key is numerated starting from 1
+            var msgArr = {
+                1: "I always lie.",
+                2: "Space is big",
+                3: "You're my favorite set",
+                4: "GONE ROGUE!",
+                5: "SEND HELP!!!",
+                6: "hello hello",
+                7: "send it over"
+            };
+
+            var msgLen = Object.keys(msgArr).length;
+
+            var num = Math.floor((Math.random() * msgLen) + 1);
+
+            var msg = msgArr[num];
+
+            document.getElementById("headermessage").innerHTML = msg;
+        }
+        var footerChange = function () {
+            var msgArr = {
+                1: "I always lie.",
+                2: "Space is big",
+                3: "You're my favorite set",
+                4: "GONE ROGUE!",
+                5: "SEND HELP!!!",
+                6: "hello hello",
+                7: "send it over"
+            };
+            var msgLen = Object.keys(msgArr).length;
+            var num = Math.floor((Math.random() * msgLen) + 1);
+            var msg = msgArr[num];
+            document.getElementById("footermessage").innerHTML = msg;
+        }
+    </script>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+
+<!-- ! This stuff is necessary for my own custom styling on top of Bootstrap -->
+    <style>
+        body {
+            background: url('http://drive.google.com/uc?export=view&id=1la64XIUTXowaPbKkqrkudkDi69VvhGfN');
+            min-width: 100%;
+            min-height: 100%;
+            position: relative;
+            background-position: center;
+        }
+
+        .size2 {
+            position: fixed;
+            right: 0;
+            top: 0;
+            min-height: 100%;
+        }
+
+        .height-fluid {
+            height: 100%;
+            width: auto;
+        }
+
+        .container {
+            border-radius: 5px;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+        }
+
+        li {
+            list-style: none;
+        }
+
+        #charname {
+            display: none;
+        }
+    </style>
 </head>
-<body id="map">
-  {{>Navbar}}
-<img id="pacman" src="Assets/pacmansmallgif.gif"></img>
-<p id="title">PAC-MAN</p>
-<p id="score">0</p>
-<div style="text-align: center">
-  <form action="/submit" method="post">
-    <input type="hidden" id="username" name="username" value={{username}}>
-    <input type="hidden" id="scoresubmit" name="score" value=0>
-    <input type="submit" id="submitbutton" onclick="getscore()" value="Submit Score"></button>
-  </form>
+
+<!-- Start of page code -->
+<div>
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: rgba(0,0,0,0.7);">
+        <a class="navbar-brand text-light">{{welcome}}</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/register">Register</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
 </div>
-<div id="arrows">
-  <ul id="messages"></ul>
-  <form action="">
-    <input id="m" autocomplete="off" /><button>Send</button>
-  </form>
-  <script src="/socket.io/socket.io.js"></script>
-  <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
-  <script>
-    console.log("we reached here")
-    $(function () {
-      var socket = io();
-      $('form').submit(function () {
-        socket.emit('chat message', $('#m').val());
-        $('#m').val('');
-        return false;
-      });
-      socket.on('chat message', function (msg) {
-        $('#messages').append($('<li>').text(msg));
-        window.scrollTo(0, document.body.scrollHeight);
-      });
-    });
-  </script>
+<br>
+
+<!-- Start top container with the game window and the high score board -->
+<div class="container col-xl-10 col-lg-12 col-md-12 col-sm-12">
+    <!-- Start title and score display -->
+    <p id="title">P0C-MAN</p>
+    <br>
+    <br>
+    <p id="score">0</p>
+    <br>
+    <!-- End title and score display -->
+
+    <!-- Start submit score button -->
+    <!-- TODO: Fix the submit button so it actually submits the score -->
+    <form action="/submit" method="post" class="container col-lg-5 col-sm-12 text-center">
+        <input type="hidden" id="username" name="username" value={{username}}>
+        <input type="hidden" id="scoresubmit" name="score" value=0>
+        <button class="btn btn-primary btn-xs col-lg-12" style="margin-bottom:4px; word-wrap:break-word;" type="button" type="submit" onclick="getscore()">Submit</button>
+    </form>
+    <!-- End submit score button -->
+
+    <!-- Start card deck -->
+    <div class="card-deck">
+        <!-- Start game window -->
+        <div class="card col-lg-6 col-sm-12" style="background-color: rgba(0,0,0,0.4);">
+            <div>
+                <div id="map" style="width: 1280px; height:720px; object-fit:contain;">
+                    <img id="pacman" src="Assets/pacmansmallgif.gif"></img>
+                </div>
+            </div>
+        </div>
+        <!-- End game window -->
+
+        <!-- Start high score window -->
+        <div class="card col-lg-6 col-sm-12 text-light" style="background-color: rgba(0,0,0,0.4);">
+            <div id="highscorebox" class="card-body" style="height:720px; object-fit:contain;">
+                <h5 class="card-title">High-Scores</h5>
+                <pre id="highscorelist">{{highscores}}</p>
+                                <p id="personalhighscore">Hi <b>{{username}}</b>!<br>Your high score: <b>{{highscore}}</b></p>
+                                <br>
+            </div>
+        </div>
+    </div>
+    <!-- End card deck -->
 </div>
-<div id="highscorebox">
-  <p id="highscoretitle">High Scores</p>
-  <pre id="highscorelist">{{highscores}}</p>
-  <p id="personalhighscore">Hi <b>{{username}}</b>!<br>Your high score: <b>{{highscore}}</b></p>
-  <br>
+<!-- End container -->
+
+<br>
+
+<!-- Start bottom container with global stats and chat -->
+<div class="container col-xl-10 col-lg-12 col-md-12 col-sm-12">
+    <!-- Start card deck -->
+    <div class="card-deck">
+        <!-- Start chat window -->
+        <div class="card col-lg-6 col-sm-12 text-light" style="background-color: rgba(0,0,0,0.4);">
+            <div class="card-body" style="height:720px; object-fit:contain; overflow: scroll;">
+                <h5 class="card-title">Chat</h5>
+                <script src="/socket.io/socket.io.js"></script>
+                <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+                <script>
+                    $(function () {
+                        var socket = io();
+                        $('form').submit(function () {
+                            socket.emit('chat message', $('#m').val());
+                            $('#m').val('');
+                            return false;
+                        });
+                        socket.on('chat message', function (msg) {
+                            var userMsg = ("{{username}}" + ": " + msg)
+                            $('#messages').append($('<li>').text(userMsg));
+                            window.scrollTo(0, document.body.scrollHeight);
+                        });
+                    });
+                </script>
+                <ul id="messages"></ul>
+                <form action="">
+                    <input id="m" autocomplete="off" /><button>Send</button>
+                </form>
+            </div>
+        </div>
+        <!-- End chat window -->
+
+        <!-- Start global stats window -->
+        <!-- TODO: Implement global stats here -->
+        <div class="card col-lg-6 col-sm-12 text-light" style="background-color: rgba(0,0,0,0.4);">
+            <div class="card-body">
+                <h5 class="card-title">Global Stats Go Here</h5>
+                <p class="card-text">
+                    Please make it so this content actually formats nicely inside this div
+                </p>
+            </div>
+        </div>
+        <!-- End global stats window -->
+    </div>
+    <!-- End card deck -->
 </div>
-<script src = "pacman.js">
+<!-- End bottom container -->
+<br>
+<!-- Start footer container -->
+<div class="container-fluid col-xl-12" style="background-color: rgba(0,0,0,0.7);">
+    <footer class="page-footer text-center text-muted">
+        <p class="text-muted" id="footermessage"></p>
+        <small class="text-muted">©2018 Team P0c-Man</small>
+    </footer>
+</div>
+<!-- End footer container -->
+</body>
+
+<!-- ! Everything below this point is game code, don't touch unless you're Francis -->
+<script>
     var basex = 0;
     var basey = 0;
+
     var pacimg = 1;
     var pac_xdir = 0;
     var pac_ydir = 0;
     var pac_y = basey + 256;
     var pac_x = basex + 224;
     console.log("y = " + pac_y + " x = " + pac_x)
-    var ghost_dir_y = [-1,-1,-1,-1];
-    var ghost_dir_x = [0,0,0,0];
-    var ghost_x=[];
-    var ghost_y=[];
+    var ghost_dir_y = [-1, -1, -1, -1];
+    var ghost_dir_x = [0, 0, 0, 0];
+    var ghost_x = [];
+    var ghost_y = [];
 
     var move = 1;
     var frame = 0;
 
-    var score = 0; 
+    var score = 0;
     var first = true;
 
     function getscore() {
         document.getElementById("scoresubmit").value = score
     }
-    
-    function proc_map(map_vals, width){
+
+    function proc_map(map_vals, width) {
         var post_map = []
-        for(var i = 0; i < map_vals.length/width; i++){
-        var temp_row = []
-        for(var j = 0; j < width; j++){
-            temp_row[j] = map_vals[i*width+j]
-        }
-        post_map[i] = temp_row
+        for (var i = 0; i < map_vals.length / width; i++) {
+            var temp_row = []
+            for (var j = 0; j < width; j++) {
+                temp_row[j] = map_vals[i * width + j]
+            }
+            post_map[i] = temp_row
         }
         return post_map
     }
+    var processed_map = proc_map([{{ values }}], {{ width }});
 
-    function block(){
-        if((pac_x - basex) % 16 == 0){
-        if((pac_y - basey) % 16 == 0){
-            if(processed_map[(pac_y - basey)/16 + pac_ydir][(pac_x - basex)/16 + pac_xdir] == 0){
-            move = 0;        
+    function block() {
+        if ((pac_x - basex) % 16 == 0) {
+            if ((pac_y - basey) % 16 == 0) {
+                if (processed_map[(pac_y - basey) / 16 + pac_ydir][(pac_x - basex) / 16 + pac_xdir] == 0) {
+                    move = 0;
+                }
             }
-        }
         }
     }
 
-    function eat(){
-            if((pac_x - basex) % 16 == 8 || (pac_y - basey) % 16 == 8){
-        if(pac_ydir==1){
-            if(processed_map[(pac_y - basey -8)/16 + pac_ydir][(pac_x - basex)/16] == 9){
-            score += 100
-            processed_map[(pac_y - basey -8)/16 +pac_ydir][(pac_x - basex)/16] = 1;
-            document.getElementById("dot" + ((pac_y - basey -8)/16 +pac_ydir) + "_" + ((pac_x - basex)/16)).className = "wall2";
+    function eat() {
+        if ((pac_x - basex) % 16 == 8 || (pac_y - basey) % 16 == 8) {
+            if (pac_ydir == 1) {
+                if (processed_map[(pac_y - basey - 8) / 16 + pac_ydir][(pac_x - basex) / 16] == 9) {
+                    score += 100
+                    processed_map[(pac_y - basey - 8) / 16 + pac_ydir][(pac_x - basex) / 16] = 1;
+                    document.getElementById("dot" + ((pac_y - basey - 8) / 16 + pac_ydir) + "_" + ((pac_x - basex) / 16)).className = "wall2";
+                }
+            } else if (pac_ydir == -1) {
+                if (processed_map[(pac_y - basey - 8) / 16][(pac_x - basex) / 16] == 9) {
+                    score += 100
+                    processed_map[(pac_y - basey - 8) / 16][(pac_x - basex) / 16] = 1;
+                    document.getElementById("dot" + ((pac_y - basey - 8) / 16) + "_" + ((pac_x - basex) / 16)).className = "wall2";
+                }
             }
-        }else if(pac_ydir == -1){
-            if(processed_map[(pac_y - basey -8)/16][(pac_x - basex)/16] == 9){
-            score += 100          
-            processed_map[(pac_y - basey -8)/16][(pac_x - basex)/16] = 1;
-            document.getElementById("dot" + ((pac_y - basey -8)/16) + "_" + ((pac_x - basex)/16)).className = "wall2";
+            else if (pac_xdir == 1) {
+                if (processed_map[(pac_y - basey) / 16][(pac_x - basex - 8) / 16 + pac_xdir] == 9) {
+                    score += 100
+                    processed_map[(pac_y - basey) / 16][(pac_x - basex - 8) / 16 + pac_xdir] = 1;
+                    document.getElementById("dot" + ((pac_y - basey) / 16) + "_" + ((pac_x - basex - 8) / 16 + pac_xdir)).className = "wall2";
+                }
+            } else if (pac_xdir == -1) {
+                if (processed_map[(pac_y - basey) / 16][(pac_x - basex - 8) / 16] == 9) {
+                    score += 100
+                    processed_map[(pac_y - basey) / 16][(pac_x - basex - 8) / 16] = 1;
+                    document.getElementById("dot" + ((pac_y - basey) / 16) + "_" + ((pac_x - basex - 8) / 16)).className = "wall2";
+                }
             }
-        }
-        else if (pac_xdir==1){
-            if(processed_map[(pac_y - basey)/16][(pac_x - basex - 8)/16 + pac_xdir] == 9){
-            score += 100
-            processed_map[(pac_y - basey)/16][(pac_x - basex - 8)/16 + pac_xdir] = 1;
-            document.getElementById("dot" + ((pac_y-basey)/16) + "_" + ((pac_x-basex - 8)/16 + pac_xdir)).className = "wall2";
-            }
-        }else if(pac_xdir==-1){
-            if(processed_map[(pac_y - basey)/16][(pac_x - basex - 8)/16] == 9){
-            score += 100
-            processed_map[(pac_y - basey)/16][(pac_x - basex - 8)/16] = 1;
-            document.getElementById("dot" + ((pac_y-basey)/16) + "_" + ((pac_x-basex - 8)/16)).className = "wall2";
-            }
-        }
             document.getElementById("score").innerHTML = score
         }
     }
 
-    function pac_move(){
-        if(move == 1){
-        pac_x += pac_xdir * 2;
-        pac_y += pac_ydir * 2;
-        document.getElementById("pacman").style.left = pac_x + "px";
-        document.getElementById("pacman").style.top = pac_y + "px";
+    function pac_move() {
+        if (move == 1) {
+            pac_x += pac_xdir * 2;
+            pac_y += pac_ydir * 2;
+            document.getElementById("pacman").style.left = pac_x + "px";
+            document.getElementById("pacman").style.top = pac_y + "px";
         }
-        for(var i = 0; i < ghost_x.length; i++){
-        if(ghost_x[i] <= pac_x + 16 && ghost_x[i] >= pac_x){
-            if(ghost_y[i] <= pac_y + 16 && ghost_y[i] >= pac_y){
-            console.log('death1')//death
-            pac_death()
+        for (var i = 0; i < ghost_x.length; i++) {
+            if (ghost_x[i] <= pac_x + 16 && ghost_x[i] >= pac_x) {
+                if (ghost_y[i] <= pac_y + 16 && ghost_y[i] >= pac_y) {
+                    console.log('death1')//death
+                    pac_death()
+                }
+                else if (ghost_y[i] + 16 <= pac_y + 16 && ghost_y[i] + 16 >= pac_y) {
+                    console.log('death2')
+                    pac_death()
+                }
             }
-            else if(ghost_y[i] + 16 <= pac_y + 16 && ghost_y[i] + 16 >= pac_y){
-            console.log('death2')
-            pac_death()
+            else if (ghost_x[i] + 16 <= pac_x + 16 && ghost_x[i] + 16 >= pac_x) {
+                if (ghost_y[i] <= pac_y + 16 && ghost_y[i] >= pac_y) {
+                    console.log('death1')//death
+                    pac_death()
+                }
+                else if (ghost_y[i] + 16 <= pac_y + 16 && ghost_y[i] + 16 >= pac_y) {
+                    console.log('death2')
+                    pac_death()
+                }
             }
-        }
-        else if(ghost_x[i] + 16 <= pac_x + 16 && ghost_x[i] + 16 >= pac_x){
-            if(ghost_y[i] <= pac_y + 16 && ghost_y[i] >= pac_y){
-            console.log('death1')//death
-            pac_death()
+            else if (ghost_y[i] <= pac_y + 16 && ghost_y[i] >= pac_y) {
+                if (ghost_x[i] <= pac_x + 16 && ghost_x[i] >= pac_x) {
+                    console.log('death3')
+                    pac_death()
+                }
+                else if (ghost_x[i] + 16 <= pac_x && ghost_x[i] + 16 >= pac_x) {
+                    console.log('death4')//death
+                    pac_death()
+                }
             }
-            else if(ghost_y[i] + 16 <= pac_y + 16 && ghost_y[i] + 16 >= pac_y){
-            console.log('death2')
-            pac_death()
+            else if (ghost_y[i] + 16 <= pac_y + 16 && ghost_y[i] + 16 >= pac_y) {
+                if (ghost_x[i] <= pac_x + 16 && ghost_x[i] >= pac_x) {
+                    console.log('death3')
+                    pac_death()
+                }
+                else if (ghost_x[i] + 16 <= pac_x && ghost_x[i] + 16 >= pac_x) {
+                    console.log('death4')//death
+                    pac_death()
+                }
             }
-        }
-        else if(ghost_y[i] <= pac_y + 16 && ghost_y[i] >= pac_y){
-            if(ghost_x[i] <= pac_x + 16 && ghost_x[i] >= pac_x){
-            console.log('death3')
-            pac_death()
-            }
-            else if(ghost_x[i] + 16 <= pac_x && ghost_x[i] + 16 >= pac_x){
-            console.log('death4')//death
-            pac_death()
-            }
-        }
-        else if(ghost_y[i] + 16 <= pac_y + 16 && ghost_y[i] + 16 >= pac_y){
-            if(ghost_x[i] <= pac_x + 16 && ghost_x[i] >= pac_x){
-            console.log('death3')
-            pac_death()
-            }
-            else if(ghost_x[i] + 16 <= pac_x && ghost_x[i] + 16 >= pac_x){
-            console.log('death4')//death
-            pac_death()
-            }
-        }
         }
     }
 
-    function ghost_move(){
-        for(var i = 0; i < ghost_x.length; i++){
-        ghost_x[i] += ghost_dir_x[i] * 2;
-        ghost_y[i] += ghost_dir_y[i] * 2;
-        document.getElementById("ghost" + i).style.left = ghost_x[i] + "px";
-        document.getElementById("ghost" + i).style.top = ghost_y[i] + "px";
-        if((ghost_x[i]-basex) % 16 == 0){
-            if((ghost_y[i]-basey) % 16 == 0){
-            var temp_dir = []
-            if(ghost_dir_x[i] != 0){
-                if(processed_map[(ghost_y[i]-basey)/16][(ghost_x[i]-basex)/16 + ghost_dir_x[i]] == 0){
-                if(processed_map[(ghost_y[i]-basey)/16 - 1][(ghost_x[i]-basex)/16] != 0){
-                    temp_dir[temp_dir.length] = -1
-                }
-                if(processed_map[(ghost_y[i]-basey)/16 + 1][(ghost_x[i]-basex)/16] != 0){
-                    temp_dir[temp_dir.length] = 1
-                }
-                ghost_dir_x[i] = 0;
-                ghost_dir_y[i] = temp_dir[Math.round(Math.random()*(temp_dir.length-1))];
+    function ghost_move() {
+        for (var i = 0; i < ghost_x.length; i++) {
+            ghost_x[i] += ghost_dir_x[i] * 2;
+            ghost_y[i] += ghost_dir_y[i] * 2;
+            document.getElementById("ghost" + i).style.left = ghost_x[i] + "px";
+            document.getElementById("ghost" + i).style.top = ghost_y[i] + "px";
+            if ((ghost_x[i] - basex) % 16 == 0) {
+                if ((ghost_y[i] - basey) % 16 == 0) {
+                    var temp_dir = []
+                    if (ghost_dir_x[i] != 0) {
+                        if (processed_map[(ghost_y[i] - basey) / 16][(ghost_x[i] - basex) / 16 + ghost_dir_x[i]] == 0) {
+                            if (processed_map[(ghost_y[i] - basey) / 16 - 1][(ghost_x[i] - basex) / 16] != 0) {
+                                temp_dir[temp_dir.length] = -1
+                            }
+                            if (processed_map[(ghost_y[i] - basey) / 16 + 1][(ghost_x[i] - basex) / 16] != 0) {
+                                temp_dir[temp_dir.length] = 1
+                            }
+                            ghost_dir_x[i] = 0;
+                            ghost_dir_y[i] = temp_dir[Math.round(Math.random() * (temp_dir.length - 1))];
+                        }
+                    }
+                    else if (ghost_dir_y[i] != 0) {
+                        if (processed_map[(ghost_y[i] - basey) / 16 + ghost_dir_y[i]][(ghost_x[i] - basex) / 16] == 0) {
+                            if (processed_map[(ghost_y[i] - basey) / 16][(ghost_x[i] - basex) / 16 - 1] != 0) {
+                                temp_dir[temp_dir.length] = -1
+                            }
+                            if (processed_map[(ghost_y[i] - basey) / 16][(ghost_x[i] - basex) / 16 + 1] != 0) {
+                                temp_dir[temp_dir.length] = 1
+                            }
+                            ghost_dir_y[i] = 0;
+                            ghost_dir_x[i] = temp_dir[Math.round(Math.random() * (temp_dir.length - 1))];
+                        }
+                    }
                 }
             }
-            else if(ghost_dir_y[i] != 0){
-                if(processed_map[(ghost_y[i]-basey)/16 + ghost_dir_y[i]][(ghost_x[i]-basex)/16] == 0){
-                if(processed_map[(ghost_y[i]-basey)/16][(ghost_x[i]-basex)/16 - 1] != 0){
-                    temp_dir[temp_dir.length] = -1
-                }
-                if(processed_map[(ghost_y[i]-basey)/16][(ghost_x[i]-basex)/16 + 1] != 0){
-                    temp_dir[temp_dir.length] = 1
-                }
-                ghost_dir_y[i] = 0;
-                ghost_dir_x[i] = temp_dir[Math.round(Math.random()*(temp_dir.length-1))];
-                }
-            }
-            }
-        }
-        
-        
+
+
         }
     }
 
-    function pacman_upd(){
+    function pacman_upd() {
         block();
         pac_move();
         eat();
         ghost_move();
     }
-    var pacman_interval = setInterval(pacman_upd, 1000/30 );
-    
-    function pacman_map(draw_map, width){
+    var pacman_interval = setInterval(pacman_upd, 1000 / 30);
+
+    function pacman_map(draw_map, width) {
         var world_map = document.getElementById("map")
         var gc = 0;
-        for(var i = 0; i < draw_map.length; i++){
-        for(var j = 0; j < width; j++){
-            if(draw_map[i][j] == 0 ){
-            world_map.innerHTML += "<div class='wall1' id='wall" +i.toString() + "_" + j.toString() + "'></img>";
-            document.getElementById("wall" + i.toString() + "_" + j.toString()).style.left = (j*16 + basex) +"px";
-            document.getElementById("wall" + i.toString() + "_" + j.toString()).style.top = (i*16 + basey) +"px";
-            }else if(draw_map[i][j] == 8){
-            world_map.innerHTML += "<div class='wall3' id='wall" +i.toString() + "_" + j.toString() + "'></img>";
-            document.getElementById("wall" + i.toString() + "_" + j.toString()).style.left = (j*16 + basex) +"px";
-            document.getElementById("wall" + i.toString() + "_" + j.toString()).style.top = (i*16 + basey) +"px";
+        for (var i = 0; i < draw_map.length; i++) {
+            for (var j = 0; j < width; j++) {
+                if (draw_map[i][j] == 0) {
+                    world_map.innerHTML += "<div class='wall1' id='wall" + i.toString() + "_" + j.toString() + "'></img>";
+                    document.getElementById("wall" + i.toString() + "_" + j.toString()).style.left = (j * 16 + basex) + "px";
+                    document.getElementById("wall" + i.toString() + "_" + j.toString()).style.top = (i * 16 + basey) + "px";
+                } else if (draw_map[i][j] == 8) {
+                    world_map.innerHTML += "<div class='wall3' id='wall" + i.toString() + "_" + j.toString() + "'></img>";
+                    document.getElementById("wall" + i.toString() + "_" + j.toString()).style.left = (j * 16 + basex) + "px";
+                    document.getElementById("wall" + i.toString() + "_" + j.toString()).style.top = (i * 16 + basey) + "px";
+                }
+                if (draw_map[i][j] == 2) {
+                    ghost_x[gc] = j * 16 + basex;
+                    ghost_y[gc] = i * 16 + basey;
+                    world_map.innerHTML += "<div id='ghost" + gc + "'></img>";
+                    document.getElementById("ghost" + gc).style.left = ghost_x[gc] + "px";
+                    document.getElementById("ghost" + gc).style.top = ghost_y[gc] + "px";
+                    gc++;
+                }
             }
-            if(draw_map[i][j] == 2){
-            ghost_x[gc] = j*16+basex;
-            ghost_y[gc] = i*16+basey;
-            world_map.innerHTML += "<div id='ghost" +gc + "'></img>";
-            document.getElementById("ghost"+gc).style.left = ghost_x[gc] + "px";
-            document.getElementById("ghost"+gc).style.top = ghost_y[gc] + "px";
-            gc++;
-            }
-        }
         }
     }
+    pacman_map(processed_map, {{ width }});
 
-    function direction(event){
-        if(first){
-        switch(event) {
-        case 0:
-        if((pac_y-basey)%16 == 0 && (pac_x-basex)%16 == 0){
-            if(processed_map[Math.floor((pac_y - basey)/16 - 1)][Math.floor((pac_x - basex)/16)]!=0 && processed_map[Math.floor((pac_y - basey)/16 - 1)][Math.floor((pac_x - basex)/16)]!=8){
-            pac_xdir = 0;
-            pac_ydir = -1;
-            move = 1;
-            document.getElementById("pacman").style.transform = "rotate(-90deg)";          
+    function direction(event) {
+        if (first) {
+            switch (event) {
+                case 0:
+                    if ((pac_y - basey) % 16 == 0 && (pac_x - basex) % 16 == 0) {
+                        if (processed_map[Math.floor((pac_y - basey) / 16 - 1)][Math.floor((pac_x - basex) / 16)] != 0 && processed_map[Math.floor((pac_y - basey) / 16 - 1)][Math.floor((pac_x - basex) / 16)] != 8) {
+                            pac_xdir = 0;
+                            pac_ydir = -1;
+                            move = 1;
+                            document.getElementById("pacman").style.transform = "rotate(-90deg)";
+                        }
+                    }
+                    else if (pac_ydir == 1) {
+                        pac_xdir = 0;
+                        pac_ydir = -1;
+                        move = 1;
+                        document.getElementById("pacman").style.transform = "rotate(-90deg)";
+                    }
+                    break;
+                case 1:
+                    if ((pac_y - basey) % 16 == 0 && (pac_x - basex) % 16 == 0) {
+                        if (processed_map[Math.floor((pac_y - basey) / 16 + 1)][Math.floor((pac_x - basex) / 16)] != 0 && processed_map[Math.floor((pac_y - basey) / 16 - 1)][Math.floor((pac_x - basex) / 16)] != 8) {
+                            pac_xdir = 0;
+                            pac_ydir = 1;
+                            move = 1;
+                            document.getElementById("pacman").style.transform = "rotate(90deg)";
+                        }
+                    }
+                    else if (pac_ydir == -1) {
+                        pac_xdir = 0;
+                        pac_ydir = 1;
+                        move = 1;
+                        document.getElementById("pacman").style.transform = "rotate(90deg)";
+                    }
+                    break;
+                case 2:
+                    if ((pac_y - basey) % 16 == 0 && (pac_x - basex) % 16 == 0) {
+                        if (processed_map[Math.floor((pac_y - basey) / 16)][Math.floor((pac_x - basex) / 16 - 1)] != 0) {
+                            pac_xdir = -1;
+                            pac_ydir = 0;
+                            move = 1;
+                            document.getElementById("pacman").style.transform = "rotate(180deg)";
+                        }
+                    }
+                    else if (pac_xdir == 1) {
+                        pac_xdir = -1;
+                        pac_ydir = 0;
+                        move = 1;
+                        document.getElementById("pacman").style.transform = "rotate(180deg)";
+                    }
+                    break;
+                case 3:
+                    if ((pac_y - basey) % 16 == 0 && (pac_x - basex) % 16 == 0) {
+                        if (processed_map[Math.floor((pac_y - basey) / 16)][Math.floor((pac_x - basex) / 16 + 1)] != 0) {
+                            pac_xdir = 1;
+                            pac_ydir = 0;
+                            move = 1;
+                            document.getElementById("pacman").style.transform = "rotate(0deg)";
+                        }
+                    }
+                    else if (pac_xdir == -1) {
+                        pac_xdir = 1;
+                        pac_ydir = 0;
+                        move = 1;
+                        document.getElementById("pacman").style.transform = "rotate(0deg)";
+                    }
+                    break;
             }
-        }
-        else if (pac_ydir == 1){
-            pac_xdir = 0;
-            pac_ydir = -1;
-            move = 1;
-            document.getElementById("pacman").style.transform = "rotate(-90deg)";
-        }
-        break;
-        case 1: 
-        if((pac_y-basey)%16 == 0 && (pac_x-basex)%16 == 0){
-            if(processed_map[Math.floor((pac_y - basey)/16 + 1)][Math.floor((pac_x - basex)/16)]!=0 && processed_map[Math.floor((pac_y - basey)/16 - 1)][Math.floor((pac_x - basex)/16)]!=8){
-            pac_xdir = 0;
-            pac_ydir = 1;
-            move = 1;
-            document.getElementById("pacman").style.transform = "rotate(90deg)";
-            }
-        }
-        else if (pac_ydir == -1){
-            pac_xdir = 0;
-            pac_ydir = 1;
-            move = 1;
-            document.getElementById("pacman").style.transform = "rotate(90deg)";
-        }
-        break;
-        case 2:
-        if((pac_y-basey)%16 == 0 && (pac_x-basex)%16 == 0){
-            if(processed_map[Math.floor((pac_y - basey)/16)][Math.floor((pac_x - basex)/16 - 1)]!=0){
-            pac_xdir = -1;
-            pac_ydir = 0;
-            move = 1;
-            document.getElementById("pacman").style.transform = "rotate(180deg)";
-            }
-        }
-        else if (pac_xdir == 1){
-            pac_xdir = -1;
-            pac_ydir = 0;
-            move = 1;
-            document.getElementById("pacman").style.transform = "rotate(180deg)";
-        }
-        break;
-        case 3:
-        if((pac_y-basey)%16 == 0 && (pac_x-basex)%16 == 0){
-            if(processed_map[Math.floor((pac_y - basey)/16)][Math.floor((pac_x - basex)/16 + 1)]!=0){
-            pac_xdir = 1;
-            pac_ydir = 0;
-            move = 1;
-            document.getElementById("pacman").style.transform = "rotate(0deg)";
-            }
-        }
-        else if (pac_xdir == -1){
-            pac_xdir = 1;
-            pac_ydir = 0;
-            move = 1;
-            document.getElementById("pacman").style.transform = "rotate(0deg)";
-        }
-        break;
-        }
         }
     }
     document.onkeydown = checkKey;
@@ -330,46 +538,48 @@
             direction(1)
         }
         else if (e.keyCode == '37') {
-        direction(2)
+            direction(2)
         }
         else if (e.keyCode == '39') {
-        direction(3)
+            direction(3)
         }
 
     }
 
     function submitscore() {
-        
+
     }
 
     function pac_death() {
         if (first) {
-        first = false;
-        document.getElementById("pacman").src = "Assets/death.gif"
-        document.getElementById("pacman").style.transform = "rotate(0deg)";
-        move = 0
-        console.log("I'm hit")
-        clearInterval(pacman_upd);      
+            first = false;
+            document.getElementById("pacman").src = "Assets/death.gif"
+            document.getElementById("pacman").style.transform = "rotate(0deg)";
+            move = 0
+            console.log("I'm hit")
+            clearInterval(pacman_upd);
         }
     }
 
-    function pacman_pallets(draw_map, width){
+    function pacman_pallets(draw_map, width) {
         var world_map = document.getElementById("map")
         var x = 0;
-        for(var i = 0; i < draw_map.length; i++){
-        for(var j = 0; j < width; j++){
-            if(draw_map[i][j] == 9){
-            world_map.innerHTML += "<div class='dot' id='dot" +i.toString() + "_" + j.toString() + "'></img>";
-            document.getElementById("dot" + i.toString() + "_" + j.toString()).style.left = (j*16 + basex) +"px";
-            document.getElementById("dot" + i.toString() + "_" + j.toString()).style.top = (i*16 + basey) +"px";
+        for (var i = 0; i < draw_map.length; i++) {
+            for (var j = 0; j < width; j++) {
+                if (draw_map[i][j] == 9) {
+                    world_map.innerHTML += "<div class='dot' id='dot" + i.toString() + "_" + j.toString() + "'></img>";
+                    document.getElementById("dot" + i.toString() + "_" + j.toString()).style.left = (j * 16 + basex) + "px";
+                    document.getElementById("dot" + i.toString() + "_" + j.toString()).style.top = (i * 16 + basey) + "px";
+                } else if (draw_map[i][j] == 1) {
+
+                }
             }
         }
-        }
     }
+    pacman_pallets(processed_map, {{ width }});
     console.log('please no cheating')
-var processed_map = proc_map([{{values}}], {{width}});
-pacman_map(processed_map,{{width}});
-pacman_pallets(processed_map, {{width}});
+
+
 </script>
 </body>
 </html>
