@@ -135,6 +135,8 @@ app.get('/', (request, response) => {
 
 app.post('/submit', (request, response) => {
     var username = request.body.username;
+    var second = request.body.seconds;
+    var corners = request.body.corners;
     var score = parseInt(request.body.score, 10);
             db.collection(USERS_COLLECTION).findOne({
                 username: username,
