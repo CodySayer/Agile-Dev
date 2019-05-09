@@ -11,8 +11,6 @@ const http = require('http').Server(app);
 const io = require('socket.io')(http);
 var sioport = process.env.PORT || 3000;
 
-//var app = express();
-
 // Create a database variable outside of the database connection callback to reuse the connection pool
 var db;
 
@@ -107,22 +105,22 @@ app.post('/register', (request, response) => {
     if (username.includes("<") || password.includes("<") || username.length > 12) {
         response.redirect('/register')
     } else {
-                db.collection(USERS_COLLECTION).findOne({
-                    username: username,
-                }).then (function (doc) {
-                    if (doc !== null) {
-                        response.render('register.hbs', {
-                            errortext: "User already exists."
-                        })
-                    } else {
-                        db.collection(USERS_COLLECTION).insertOne({
-                            username: username,
-                            password: bcrypt.hashSync(password, 10),
-                            highscore: 0
-                        }) 
-                        response.redirect('/');
-                    }
+        db.collection(USERS_COLLECTION).findOne({
+            username: username,
+        }).then (function (doc) {
+            if (doc !== null) {
+                response.render('register.hbs', {
+                    errortext: "User already exists."
                 })
+            } else {
+                db.collection(USERS_COLLECTION).insertOne({
+                    username: username,
+                    password: bcrypt.hashSync(password, 10),
+                    highscore: 0
+                }) 
+                response.redirect('/');
+            }
+        })
     }
 })
 
@@ -138,25 +136,25 @@ app.post('/submit', (request, response) => {
     var second = request.body.seconds;
     var corners = request.body.corners;
     var score = parseInt(request.body.score, 10);
-            db.collection(USERS_COLLECTION).findOne({
-                username: username,
-            }).then (function (doc) {
-                if (doc == null) {
-                    response.render('home.hbs', {
-                        errortext: "Failed to compare scores."
-                    })
-                } else if (doc.highscore > score) {
-                    response.redirect('/pacman')
-                } else {
-                    db.collection(USERS_COLLECTION).updateOne({
-                        username: username
-                    }, {
-                        $set: {"highscore": score}
-                    }) 
-                    response.cookie('username', [username, score])
-                    response.redirect('/pacman')
-                }
-            })
+        db.collection(USERS_COLLECTION).findOne({
+            username: username,
+        }).then (function (doc) {
+            if (doc == null) {
+                response.render('home.hbs', {
+                    errortext: "Failed to compare scores."
+                })
+            } else if (doc.highscore > score) {
+                response.redirect('/pacman')
+            } else {
+                db.collection(USERS_COLLECTION).updateOne({
+                    username: username
+                }, {
+                    $set: {"highscore": score}
+                }) 
+                response.cookie('username', [username, score])
+                response.redirect('/pacman')
+            }
+        })
 })
 
 
