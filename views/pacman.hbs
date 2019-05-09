@@ -226,7 +226,6 @@
         <!-- End chat window -->
 
         <!-- Start global stats window -->
-        <!-- TODO: Implement global stats here -->
         <div class="card col-lg-6 col-sm-12 text-light" style="background-color: rgba(0,0,0,0.4);">
             <div class="card-body">
                 <h5 class="card-title">Global Stats</h5>
@@ -491,75 +490,6 @@
     }
     pacman_map(processed_map, {{ width }});
 
-<<<<<<< HEAD
-    function direction(event) {
-        if (first) {
-            switch (event) {
-                case 0:
-                    if ((pac_y - basey) % 16 == 0 && (pac_x - basex) % 16 == 0) {
-                        if (processed_map[Math.floor((pac_y - basey) / 16 - 1)][Math.floor((pac_x - basex) / 16)] != 0 && processed_map[Math.floor((pac_y - basey) / 16 - 1)][Math.floor((pac_x - basex) / 16)] != 8) {
-                            pac_xdir = 0;
-                            pac_ydir = -1;
-                            move = 1;
-                            document.getElementById("pacman").style.transform = "rotate(-90deg)";
-                        }
-                    }
-                    else if (pac_ydir == 1) {
-                        pac_xdir = 0;
-                        pac_ydir = -1;
-                        move = 1;
-                        document.getElementById("pacman").style.transform = "rotate(-90deg)";
-                    }
-                    break;
-                case 1:
-                    if ((pac_y - basey) % 16 == 0 && (pac_x - basex) % 16 == 0) {
-                        if (processed_map[Math.floor((pac_y - basey) / 16 + 1)][Math.floor((pac_x - basex) / 16)] != 0 && processed_map[Math.floor((pac_y - basey) / 16 - 1)][Math.floor((pac_x - basex) / 16)] != 8) {
-                            pac_xdir = 0;
-                            pac_ydir = 1;
-                            move = 1;
-                            document.getElementById("pacman").style.transform = "rotate(90deg)";
-                        }
-                    }
-                    else if (pac_ydir == -1) {
-                        pac_xdir = 0;
-                        pac_ydir = 1;
-                        move = 1;
-                        document.getElementById("pacman").style.transform = "rotate(90deg)";
-                    }
-                    break;
-                case 2:
-                    if ((pac_y - basey) % 16 == 0 && (pac_x - basex) % 16 == 0) {
-                        if (processed_map[Math.floor((pac_y - basey) / 16)][Math.floor((pac_x - basex) / 16 - 1)] != 0) {
-                            pac_xdir = -1;
-                            pac_ydir = 0;
-                            move = 1;
-                            document.getElementById("pacman").style.transform = "rotate(180deg)";
-                        }
-                    }
-                    else if (pac_xdir == 1) {
-                        pac_xdir = -1;
-                        pac_ydir = 0;
-                        move = 1;
-                        document.getElementById("pacman").style.transform = "rotate(180deg)";
-                    }
-                    break;
-                case 3:
-                    if ((pac_y - basey) % 16 == 0 && (pac_x - basex) % 16 == 0) {
-                        if (processed_map[Math.floor((pac_y - basey) / 16)][Math.floor((pac_x - basex) / 16 + 1)] != 0) {
-                            pac_xdir = 1;
-                            pac_ydir = 0;
-                            move = 1;
-                            document.getElementById("pacman").style.transform = "rotate(0deg)";
-                        }
-                    }
-                    else if (pac_xdir == -1) {
-                        pac_xdir = 1;
-                        pac_ydir = 0;
-                        move = 1;
-                        document.getElementById("pacman").style.transform = "rotate(0deg)";
-                    }
-                    break;
-=======
     function direction(event){
         if(first){
         switch(event) {
@@ -622,7 +552,6 @@
             move = 1;
             document.getElementById("pacman").style.transform = "rotate(0deg)";
             document.getElementById("cornersubmit").value += 1;
->>>>>>> chat-integration
             }
         }
     }

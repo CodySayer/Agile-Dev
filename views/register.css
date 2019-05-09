@@ -39,6 +39,7 @@ body {background-color: #000000}
 
 #errortext {
     color: red
+}
 
 input[type="password"],
 input[type="text"] {
