@@ -10,16 +10,16 @@
 {{>Navbar}}
     <p id="title">POC-MAN</p>
     <img class="logo" src="Assets/logo.png">
-
+<div id = "Login">
 <form class="text" method="post" action="/login">
-    <label style="font-size: 2em">LOGIN</label><br>
-    <input type="text" name="username" placeholder="Username" maxlength="12" required>
+    <label id="font1">LOGIN</label><br><br>
+    <input type="text" name="username" placeholder="Username" maxlength="12" required><br><br>
     <input type="password" name="password" placeholder="Password" required><br><br>
     <input type="submit" id="submitbutton" value="Play Now">
     <p id ="errortext">{{errortext}}</p>
 </form>
-
-<marquee direction="right" style="padding-top: 10%"><img src="Assets/animated.gif" height="80" width="80"></marquee>
+</div>
+<marquee direction="right" style="padding-top: 5%"><img src="Assets/animated.gif" height="80" width="80"></marquee>
 
 </body>
 <footer id="footer">
