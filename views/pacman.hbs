@@ -12,7 +12,9 @@
 <div style="text-align: center">
   <form action="/submit" method="post">
     <input type="hidden" id="username" name="username" value={{username}}>
-    <input type="hidden" id="scoresubmit" name="score" value=0>
+    <input type="hidden" id="score" name="score" value=0>
+    <input type="hidden" id="corner" name="corner" value=0>
+    <input type="hidden" id="seconds" name="seconds" value=0>
     <input type="submit" id="submitbutton" onclick="getscore()" value="Submit Score"></button>
   </form>
 </div>
@@ -64,6 +66,7 @@
 
     var score = 0; 
     var first = true;
+    var tick = 0;
 
     function getscore() {
         document.getElementById("scoresubmit").value = score
@@ -219,6 +222,11 @@
         pac_move();
         eat();
         ghost_move();
+        tick += 1;
+        if (tick == 30){
+            tick = 0;
+            document.getElementById("secondsubmit").value += 1;
+        }
     }
     var pacman_interval = setInterval(pacman_upd, 1000/30 );
     
@@ -257,7 +265,8 @@
             pac_xdir = 0;
             pac_ydir = -1;
             move = 1;
-            document.getElementById("pacman").style.transform = "rotate(-90deg)";          
+            document.getElementById("pacman").style.transform = "rotate(-90deg)";
+            document.getElementById("cornersubmit").value += 1;   
             }
         }
         else if (pac_ydir == 1){
@@ -274,6 +283,7 @@
             pac_ydir = 1;
             move = 1;
             document.getElementById("pacman").style.transform = "rotate(90deg)";
+            document.getElementById("cornersubmit").value += 1;
             }
         }
         else if (pac_ydir == -1){
@@ -290,6 +300,7 @@
             pac_ydir = 0;
             move = 1;
             document.getElementById("pacman").style.transform = "rotate(180deg)";
+            document.getElementById("cornersubmit").value += 1;
             }
         }
         else if (pac_xdir == 1){
@@ -306,6 +317,7 @@
             pac_ydir = 0;
             move = 1;
             document.getElementById("pacman").style.transform = "rotate(0deg)";
+            document.getElementById("cornersubmit").value += 1;
             }
         }
         else if (pac_xdir == -1){
