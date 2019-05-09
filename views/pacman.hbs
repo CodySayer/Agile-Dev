@@ -146,7 +146,7 @@
 <!-- Start top container with the game window and the high score board -->
 <div class="container col-xl-10 col-lg-12 col-md-12 col-sm-12">
     <!-- Start title and score display -->
-    <p id="title">P0C-MAN</p>
+    <p id="title">P0c-Man</p>
     <br>
     <br>
     <p id="score">0</p>
@@ -163,6 +163,8 @@
         <button class="btn btn-primary btn-xs col-lg-12" style="margin-bottom:4px; word-wrap:break-word;" type="submit" onclick="getscore();">Submit</button>
     </form>
     <!-- End submit score button -->
+
+<br>
 
     <!-- Start card deck -->
     <div class="card-deck">
@@ -202,9 +204,7 @@
                 <h5 class="card-title">Chat</h5>
                 <script src="/socket.io/socket.io.js"></script>
                 <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
-                
-                <script>
-                    /*
+                {{!-- <script>
                     $(function () {
                         var socket = io();
                         $('form').submit(function () {
@@ -218,8 +218,7 @@
                             window.scrollTo(0, document.body.scrollHeight);
                         });
                     });
-                    */
-                </script>
+                </script> --}}
                 <ul id="messages"></ul>
                 <form action="">
                     <input id="m" autocomplete="off" /><button>Send</button>
