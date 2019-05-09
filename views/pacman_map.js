@@ -15,7 +15,7 @@ function pac_map(){
     this.score = 0
     this.first = true
     this.processed_map = []
-    this.pacman_interval = ""
+    this.pacman_interval = setInterval(this.pacman_upd,1000/30)
     this.proc_map = function(map, width){
         var post_map = [];
         for(var i = 0; i < map.length/width; i++){
@@ -25,9 +25,11 @@ function pac_map(){
             }
             post_map[i] = temp_row
         }
+        console.log(this);
         return post_map
     }
-    this.block = function(){
+    this.pacman_upd = function(){
+        console.log(this);
         if((this.pac_x - this.basex) % 16 == 0){
             if((this.pac_y - this.basey) % 16 == 0){
                 if(this.processed_map[(this.pac_y - this.basey)/16 + this.pac_ydir][(this.pac_x - this.basex)/16 + this.pac_xdir] == 0){
@@ -36,10 +38,55 @@ function pac_map(){
                 }
             }
         }
-    }
-    this.eat = function(){
-        var curx = this.pac_x - this.basex;
-        var cury = this.pac_y - this.basey;
+        if(this.move == 1){
+            console.log("should be moving")
+            this.pac_x += this.pac_xdir * 2;
+            this.pac_y += this.pac_ydir * 2;
+            document.getElementById("pacman").style.left = this.pac_x + "px";
+            document.getElementById("pacman").style.top = this.pac_y + "px";
+            console.log("we made it")
+            }
+            for(var i = 0; i < this.ghost_x.length; i++){
+                if(this.ghost_x[i] <= this.pac_x + 16 && this.ghost_x[i] >= this.pac_x){
+                    if(this.ghost_y[i] <= this.pac_y + 16 && this.ghost_y[i] >= this.pac_y){
+                        console.log('death1')//death
+                        this.pac_death()
+                    }else if(this.ghost_y[i] + 16 <= this.pac_y + 16 && this.ghost_y[i] + 16 >= this.pac_y){
+                        console.log('death2')
+                        this.pac_death()
+                    }
+                }
+                else if(this.ghost_x[i] + 16 <= this.pac_x + 16 && this.ghost_x[i] + 16 >= this.pac_x){
+                    if(this.ghost_y[i] <= this.pac_y + 16 && this.ghost_y[i] >= this.pac_y){
+                        console.log('death1')//death
+                        this.pac_death()
+                    }else if(this.ghost_y[i] + 16 <= this.pac_y + 16 && this.ghost_y[i] + 16 >= this.pac_y){
+                        console.log('death2')
+                        this.pac_death()
+                    }
+                }
+                else if(this.ghost_y[i] <= this.pac_y + 16 && this.ghost_y[i] >= this.pac_y){
+                    if(this.ghost_x[i] <= this.pac_x + 16 && this.ghost_x[i] >= this.pac_x){
+                        console.log('death3')
+                        this.pac_death()
+                    }else if(this.ghost_x[i] + 16 <= this.pac_x && this.ghost_x[i] + 16 >= this.pac_x){
+                        console.log('death4')//death
+                        this.pac_death()
+                    }
+                }
+                else if(this.ghost_y[i] + 16 <= this.pac_y + 16 && this.ghost_y[i] + 16 >= this.pac_y){
+                    if(this.ghost_x[i] <= this.pac_x + 16 && this.ghost_x[i] >= this.pac_x){
+                        console.log('death3')
+                        this.pac_death()
+                    }
+                    else if(this.ghost_x[i] + 16 <= this.pac_x && this.ghost_x[i] + 16 >= this.pac_x){
+                        console.log('death4')//death
+                        this.pac_death()
+                    }
+                }
+            }
+            var curx = this.pac_x - this.basex;
+            var cury = this.pac_y - this.basey;
         if(curx % 16 == 8 || cury % 16 == 8){
             if( this.pac_ydir == 1){
                 if(this.processed_map[(cury -8)/16 + this.pac_ydir][(curx)/16] == 9){
@@ -68,58 +115,7 @@ function pac_map(){
                 }
             }
         document.getElementById("score").innerHTML = this.score
-    }
-    }
-    this.pac_move = function(){
-        if(this.move == 1){
-            console.log("should be moving")
-            this.pac_x += this.pac_xdir * 2;
-            this.pac_y += this.pac_ydir * 2;
-            document.getElementById("pacman").style.left = this.pac_x + "px";
-            document.getElementById("pacman").style.top = this.pac_y + "px";
-            console.log("we made it")
-            }
-            for(var i = 0; i < this.ghost_x.length; i++){
-                if(this.ghost_x[i] <= this.pac_x + 16 && this.ghost_x[i] >= this.pac_x){
-                    if(this.ghost_y[i] <= this.pac_y + 16 && this.ghost_y[i] >= this.pac_y){
-                    console.log('death1')//death
-                    this.pac_death()
-                }else if(this.ghost_y[i] + 16 <= this.pac_y + 16 && this.ghost_y[i] + 16 >= this.pac_y){
-                    console.log('death2')
-                    this.pac_death()
-                }
-            }
-            else if(this.ghost_x[i] + 16 <= this.pac_x + 16 && this.ghost_x[i] + 16 >= this.pac_x){
-                if(this.ghost_y[i] <= this.pac_y + 16 && this.ghost_y[i] >= this.pac_y){
-                    console.log('death1')//death
-                    this.pac_death()
-                }else if(this.ghost_y[i] + 16 <= this.pac_y + 16 && this.ghost_y[i] + 16 >= this.pac_y){
-                    console.log('death2')
-                    this.pac_death()
-                }
-            }
-            else if(this.ghost_y[i] <= this.pac_y + 16 && this.ghost_y[i] >= this.pac_y){
-                if(this.ghost_x[i] <= this.pac_x + 16 && this.ghost_x[i] >= this.pac_x){
-                    console.log('death3')
-                    this.pac_death()
-                }else if(this.ghost_x[i] + 16 <= this.pac_x && this.ghost_x[i] + 16 >= this.pac_x){
-                    console.log('death4')//death
-                    this.pac_death()
-                }
-            }
-            else if(this.ghost_y[i] + 16 <= this.pac_y + 16 && this.ghost_y[i] + 16 >= this.pac_y){
-                if(this.ghost_x[i] <= this.pac_x + 16 && this.ghost_x[i] >= this.pac_x){
-                    console.log('death3')
-                    this.pac_death()
-                }
-                else if(this.ghost_x[i] + 16 <= this.pac_x && this.ghost_x[i] + 16 >= this.pac_x){
-                    console.log('death4')//death
-                    this.pac_death()
-                }
-            }
         }
-    }
-    this.ghost_move = function(){
         for(var i = 0; i < this.ghost_x.length; i++){
             this.ghost_x[i] += this.ghost_dir_x[i] * 2;
             this.ghost_y[i] += this.ghost_dir_y[i] * 2;
@@ -157,12 +153,6 @@ function pac_map(){
             
             
             }
-    }
-    this.pacman_upd = function(){
-        block();
-        pac_move();
-        eat();
-        ghost_move();
     }
     this.direction= function(event){
         if(this.first){
@@ -245,6 +235,7 @@ function pac_map(){
         }
     }
     this.pacman_map = function(draw_map, width){
+        console.log(this.ghost_x)
         var world_map = document.getElementById("map")
         var gc = 0;
         for(var i = 0; i < draw_map.length; i++){

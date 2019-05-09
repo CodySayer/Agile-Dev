@@ -31,17 +31,16 @@
 <script src = "pacman_map.js"></script>
 <script>
     var pocmap = new pac_map()
+    console.log(pocmap);
     pocmap.processed_map = pocmap.proc_map([{{values}}],{{width}})
+    console.log(pocmap);
     pocmap.pacman_map(pocmap.processed_map,{{width}});
+    console.log(pocmap);
     pocmap.pacman_pallets(pocmap.processed_map, {{width}});
-    function tick(pac){
-        pac.block();
-        pac.pac_move();
-        pac.eat();
-        pac.ghost_move();
-        console.log("hmm")
-    }
-    var pacman_interval = setInterval(tick(pocmap), 1000/30 );
+    console.log(pocmap);
+    pocmap.pacman_interval = setInterval(pocmap.pacman_upd,1000/30);
+    console.log(pocmap.pacman_interval);
+    console.log(pocmap);
     document.onkeydown = checkKey;
 
     function checkKey(e) {
