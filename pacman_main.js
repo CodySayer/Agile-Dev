@@ -99,6 +99,30 @@ app.get('/register', (request, response) => {
     });
 })
 
+app.get('/reset', (request, response) => {
+    db.dropDatabase();
+    db.collection(USERS_COLLECTION).insertOne({
+        username: "Death",
+        password: bcrypt.hashSync("Death", 10),
+        highscore: 0
+    });
+    db.collection(USERS_COLLECTION).insertOne({
+        username: "Turns",
+        password: bcrypt.hashSync("Turns", 10),
+        highscore: 0
+    });
+    db.collection(USERS_COLLECTION).insertOne({
+        username: "Seconds",
+        password: bcrypt.hashSync("Seconds", 10),
+        highscore: 0
+    });
+    db.collection(USERS_COLLECTION).insertOne({
+        username: "Pallets",
+        password: bcrypt.hashSync("Pallets", 10),
+        highscore: 0
+    });
+    response.redirect('/')
+})
 app.post('/register', (request, response) => {
     var username = request.body.username;
     var password = request.body.password;
@@ -133,12 +157,12 @@ app.get('/', (request, response) => {
 
 app.post('/submit', (request, response) => {
     var username = request.body.username;
-    var second = request.body.seconds; // This is the second count
-    var corner = request.body.corner; //This is the corner count
+    var second = parseInt(request.body.seconds,10); // This is the second count
+    var corner = parseInt(request.body.corner,10); //This is the corner count
     var score = parseInt(request.body.score, 10);
-        db.collection(USERS_COLLECTION).findOne({
+    db.collection(USERS_COLLECTION).findOne({
             username: username,
-        }).then (function (doc) {
+    }).then (function (doc) {
             if (doc == null) {
                 response.render('home.hbs', {
                     errortext: "Failed to compare scores."
@@ -150,13 +174,55 @@ app.post('/submit', (request, response) => {
                     username: username
                 }, {
                     $set: {"highscore": score}
-                }) 
-                response.cookie('username', [username, score])
-                response.redirect('/pacman')
-            }
-        })
+            }) 
+            response.cookie('username', [username, score])
+            response.redirect('/pacman')
+        }
+    })
+    var num = 0;
+    db.collection(USERS_COLLECTION).findOne({
+        username: "Death",
+    }).then (function (doc) {
+        num = doc.highscore + 1
+        console.log(num);
+        db.collection(USERS_COLLECTION).updateOne({
+            username: "Death"
+            }, {
+                $set: {"highscore": num}
+            }) 
+    })
+    db.collection(USERS_COLLECTION).findOne({
+        username: "Seconds",
+    }).then (function (doc) {
+        num = doc.highscore + second
+        console.log(num);
+        db.collection(USERS_COLLECTION).updateOne({
+            username: "Seconds"
+            }, {
+                $set: {"highscore": num}
+            }) 
+    })
+    db.collection(USERS_COLLECTION).findOne({
+        username: "Turns",
+    }).then (function (doc) {
+        num = doc.highscore + corner
+        db.collection(USERS_COLLECTION).updateOne({
+            username: "Turns"
+            }, {
+                $set: {"highscore": num}
+            }) 
+    })
+    db.collection(USERS_COLLECTION).findOne({
+        username: "Pallets",
+    }).then (function (doc) {
+        num = doc.highscore + score/100
+        db.collection(USERS_COLLECTION).updateOne({
+            username: "Pallets"
+            }, {
+                $set: {"highscore": num}
+            }) 
+    })
 })
-
 
 app.get('/pacman', (request, response) => {
     if (request.cookies.username == undefined) {
