@@ -43,7 +43,7 @@ color: red;
 input[type="password"], input[type="text"] {
   border-radius: 6px;
   box-sizing: border-box;
-  color: #696969;
+  color: white;
   height: 39px;
   padding-left: 20px;
   transition: box-shadow 0.3s;
@@ -55,7 +55,7 @@ input[type="submit"] {
   width:240px;
   height:38px;
   display:block;
-  font-family:Arial, "Helvetica", sans-serif;
+  font-family:Arial, sans-serif;
   font-size:14px;
   font-weight:bold;
   color:#fff;
@@ -63,16 +63,16 @@ input[type="submit"] {
   text-transform:uppercase;
   text-align:center;
   padding-top:4px;
-  margin: 15px 0 0 41%;
+  margin: auto;
   position:center;
-  cursor:pointer;
   border: none;  
-  background-color: #37a69b;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
-  border-bottom-right-radius: 5px;
-  border-bottom-left-radius:5px;
+  background-color: #FF0090;
+  border-radius: 5px;
  
 }
 
-
+/* Button styling */
+.btn {
+  white-space: normal !important;
+  max-width: 200px;
+}
