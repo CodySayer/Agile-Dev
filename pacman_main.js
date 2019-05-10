@@ -230,6 +230,24 @@ app.get('/pacman', (request, response) => {
     } else {
         db.collection(USERS_COLLECTION).find({}).sort({highscore:-1}).limit(10).toArray(function (err, result) {
             highscores = result.map(user => ({username: user.username, highscore: user.highscore}))
+            console.log(highscores)
+            console.log(Object.keys(highscores).length)
+            for (i = 0; i < Object.keys(highscores).length; i++) {
+                console.log('loop in')
+                if (highscores[i].username == "Death"){
+                    deaths = highscores[i].highscore;
+                    console.log(highscores[i].highscore);
+                } else if (highscores[i].username == "Seconds") {
+                    seconds = highscores[i].highscore;
+                    console.log(highscores[i].highscore);
+                } else if (highscores[i].username == "Turns") {
+                    turns = highscores[i].highscore;
+                    console.log(highscores[i].highscore);
+                } else if (highscores[i].username == "Pallets") {
+                    pellets = highscores[i].highscore;
+                    console.log(highscores[i].highscore);
+                }
+            }
             highscores = highscores.map(function(highscore) {
                 stringscore = highscore['highscore'].toString()
                 spaces = 29 - (highscore['username'].length + stringscore.length)
@@ -240,6 +258,10 @@ app.get('/pacman', (request, response) => {
                 values: maper.map(),
                 width: 28,
                 highscores: highscores,
+                deaths: deaths,
+                seconds: seconds,
+                turns: turns,
+                pellets: pellets,
                 username: request.cookies.username[0],
                 highscore: request.cookies.username[1]
             });
