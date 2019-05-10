@@ -231,21 +231,25 @@ app.get('/pacman', (request, response) => {
         db.collection(USERS_COLLECTION).find({}).sort({highscore:-1}).limit(10).toArray(function (err, result) {
             highscores = result.map(user => ({username: user.username, highscore: user.highscore}))
             console.log(highscores)
-            console.log(Object.keys(highscores).length)
-            for (i = 0; i < Object.keys(highscores).length; i++) {
+            var len = Object.keys(highscores).length
+            for (i = 0; i < len; i++) {
                 console.log('loop in')
                 if (highscores[i].username == "Death"){
                     deaths = highscores[i].highscore;
-                    console.log(highscores[i].highscore);
+                    console.log(highscores[i]);
+                    delete highscores[i];
                 } else if (highscores[i].username == "Seconds") {
                     seconds = highscores[i].highscore;
-                    console.log(highscores[i].highscore);
+                    console.log(highscores[i]);
+                    delete highscores[i];
                 } else if (highscores[i].username == "Turns") {
                     turns = highscores[i].highscore;
-                    console.log(highscores[i].highscore);
+                    console.log(highscores[i]);
+                    delete highscores[i];
                 } else if (highscores[i].username == "Pallets") {
                     pellets = highscores[i].highscore;
-                    console.log(highscores[i].highscore);
+                    console.log(highscores[i]);
+                    delete highscores[i];
                 }
             }
             highscores = highscores.map(function(highscore) {
