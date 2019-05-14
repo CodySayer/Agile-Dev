@@ -262,6 +262,7 @@ function wait(sec){
 
     var basex = 0;
     var basey = 0;
+    var buffer = 10;
 
     var pacimg = 1;
     var pac_xdir = 0;
@@ -439,6 +440,7 @@ function wait(sec){
     }
 
     function pacman_upd() {
+        direction(buffer);
         block();
         pac_move();
         eat();
@@ -473,71 +475,75 @@ function wait(sec){
     }
     pacman_map(processed_map, {{ width }});
 
+    function pac_change_dir(dir){
+        switch (dir){
+            case 0:
+                pac_xdir = 0;
+                pac_ydir = -1;
+                move = 1;
+                document.getElementById("pacman").style.transform = "rotate(-90deg)";
+                break;
+            case 1:
+                pac_xdir = 0;
+                pac_ydir = 1;
+                move = 1;
+                document.getElementById("pacman").style.transform = "rotate(90deg)";
+                break;
+            case 2:
+                pac_xdir = -1;
+                pac_ydir = 0;
+                move = 1;
+                document.getElementById("pacman").style.transform = "rotate(180deg)";
+                break;
+            case 3:
+                pac_xdir = 1;
+                pac_ydir = 0;
+                move = 1;
+                document.getElementById("pacman").style.transform = "rotate(0deg)";
+        }
+    }
+
     function direction(event) {
         if (first) {
             switch (event) {
                 case 0:
                     if ((pac_y - basey) % 16 == 0 && (pac_x - basex) % 16 == 0) {
                         if (processed_map[Math.floor((pac_y - basey) / 16 - 1)][Math.floor((pac_x - basex) / 16)] != 0 && processed_map[Math.floor((pac_y - basey) / 16 - 1)][Math.floor((pac_x - basex) / 16)] != 8) {
-                            pac_xdir = 0;
-                            pac_ydir = -1;
-                            move = 1;
-                            document.getElementById("pacman").style.transform = "rotate(-90deg)";
+                            pac_change_dir(0);
                         }
                     }
                     else if (pac_ydir == 1) {
-                        pac_xdir = 0;
-                        pac_ydir = -1;
-                        move = 1;
-                        document.getElementById("pacman").style.transform = "rotate(-90deg)";
+                        pac_change_dir(0)
                     }
                     break;
                 case 1:
                     if ((pac_y - basey) % 16 == 0 && (pac_x - basex) % 16 == 0) {
                         if (processed_map[Math.floor((pac_y - basey) / 16 + 1)][Math.floor((pac_x - basex) / 16)] != 0 && processed_map[Math.floor((pac_y - basey) / 16 - 1)][Math.floor((pac_x - basex) / 16)] != 8) {
-                            pac_xdir = 0;
-                            pac_ydir = 1;
-                            move = 1;
-                            document.getElementById("pacman").style.transform = "rotate(90deg)";
+                            pac_change_dir(1);
                         }
                     }
                     else if (pac_ydir == -1) {
-                        pac_xdir = 0;
-                        pac_ydir = 1;
-                        move = 1;
-                        document.getElementById("pacman").style.transform = "rotate(90deg)";
+                        pac_change_dir(1);
                     }
                     break;
                 case 2:
                     if ((pac_y - basey) % 16 == 0 && (pac_x - basex) % 16 == 0) {
                         if (processed_map[Math.floor((pac_y - basey) / 16)][Math.floor((pac_x - basex) / 16 - 1)] != 0) {
-                            pac_xdir = -1;
-                            pac_ydir = 0;
-                            move = 1;
-                            document.getElementById("pacman").style.transform = "rotate(180deg)";
+                            pac_change_dir(2);
                         }
                     }
                     else if (pac_xdir == 1) {
-                        pac_xdir = -1;
-                        pac_ydir = 0;
-                        move = 1;
-                        document.getElementById("pacman").style.transform = "rotate(180deg)";
+                        pac_change_dir(2);
                     }
                     break;
                 case 3:
                     if ((pac_y - basey) % 16 == 0 && (pac_x - basex) % 16 == 0) {
                         if (processed_map[Math.floor((pac_y - basey) / 16)][Math.floor((pac_x - basex) / 16 + 1)] != 0) {
-                            pac_xdir = 1;
-                            pac_ydir = 0;
-                            move = 1;
-                            document.getElementById("pacman").style.transform = "rotate(0deg)";
+                            pac_change_dir(3);
                         }
                     }
                     else if (pac_xdir == -1) {
-                        pac_xdir = 1;
-                        pac_ydir = 0;
-                        move = 1;
-                        document.getElementById("pacman").style.transform = "rotate(0deg)";
+                        pac_change_dir(3);
                     }
                     break;
             }
@@ -549,16 +555,16 @@ function wait(sec){
         e = e || window.event;
 
         if (e.keyCode == '38') {
-            direction(0)
+            buffer = 0;
         }
         else if (e.keyCode == '40') {
-            direction(1)
+            buffer = 1;
         }
         else if (e.keyCode == '37') {
-            direction(2)
+            buffer = 2;
         }
         else if (e.keyCode == '39') {
-            direction(3)
+            buffer = 3;
         }
 
     }
