@@ -155,7 +155,7 @@
 
     <!-- Start submit score button -->
     <!-- TODO: Fix the submit button so it actually submits the score -->
-    <form action="/submit" method="post" class="container col-lg-5 col-sm-12 text-center">
+    <form action="/submit" method="post" class="container col-lg-5 col-sm-12 text-center" id = "scoreForm">
         <input type="hidden" id="username" name="username" value={{username}}>
         <input type="hidden" id="scoresubmit" name="score" value=0>
         <button class="btn btn-primary btn-xs col-lg-12" style="margin-bottom:4px; word-wrap:break-word;" type="button" type="submit" onclick="getscore()">Submit</button>
@@ -251,6 +251,15 @@
 
 <!-- ! Everything below this point is game code, don't touch unless you're Francis -->
 <script>
+
+function wait(sec){
+   var start = new Date().getTime();
+   var end = start;
+   while(end < start + ms * 1000) {
+     end = new Date().getTime();
+  }
+}
+
     var basex = 0;
     var basey = 0;
 
@@ -270,6 +279,7 @@
 
     var score = 0;
     var first = true;
+    var pal = 0;
 
     function getscore() {
         document.getElementById("scoresubmit").value = score
@@ -305,12 +315,14 @@
                     score += 100
                     processed_map[(pac_y - basey - 8) / 16 + pac_ydir][(pac_x - basex) / 16] = 1;
                     document.getElementById("dot" + ((pac_y - basey - 8) / 16 + pac_ydir) + "_" + ((pac_x - basex) / 16)).className = "wall2";
+                    pal -=1;
                 }
             } else if (pac_ydir == -1) {
                 if (processed_map[(pac_y - basey - 8) / 16][(pac_x - basex) / 16] == 9) {
                     score += 100
                     processed_map[(pac_y - basey - 8) / 16][(pac_x - basex) / 16] = 1;
                     document.getElementById("dot" + ((pac_y - basey - 8) / 16) + "_" + ((pac_x - basex) / 16)).className = "wall2";
+                    pal -=1;
                 }
             }
             else if (pac_xdir == 1) {
@@ -318,12 +330,14 @@
                     score += 100
                     processed_map[(pac_y - basey) / 16][(pac_x - basex - 8) / 16 + pac_xdir] = 1;
                     document.getElementById("dot" + ((pac_y - basey) / 16) + "_" + ((pac_x - basex - 8) / 16 + pac_xdir)).className = "wall2";
+                    pal -=1;
                 }
             } else if (pac_xdir == -1) {
                 if (processed_map[(pac_y - basey) / 16][(pac_x - basex - 8) / 16] == 9) {
                     score += 100
                     processed_map[(pac_y - basey) / 16][(pac_x - basex - 8) / 16] = 1;
                     document.getElementById("dot" + ((pac_y - basey) / 16) + "_" + ((pac_x - basex - 8) / 16)).className = "wall2";
+                    pal -=1;
                 }
             }
             document.getElementById("score").innerHTML = score
@@ -558,6 +572,9 @@
             move = 0
             console.log("I'm hit")
             clearInterval(pacman_upd);
+            getscore();
+            wait(10);
+            document.getElementById("scoreForm").submit();
         }
     }
 
@@ -570,13 +587,13 @@
                     world_map.innerHTML += "<div class='dot' id='dot" + i.toString() + "_" + j.toString() + "'></img>";
                     document.getElementById("dot" + i.toString() + "_" + j.toString()).style.left = (j * 16 + basex) + "px";
                     document.getElementById("dot" + i.toString() + "_" + j.toString()).style.top = (i * 16 + basey) + "px";
-                } else if (draw_map[i][j] == 1) {
-
+                    pal += 1;
                 }
             }
         }
     }
     pacman_pallets(processed_map, {{ width }});
+    
     console.log('please no cheating')
 
 
