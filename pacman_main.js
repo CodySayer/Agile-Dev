@@ -11,6 +11,8 @@ const http = require('http').Server(app);
 const io = require('socket.io')(http);
 var sioport = process.env.PORT || 3000;
 
+//var app = express();
+
 // Create a database variable outside of the database connection callback to reuse the connection pool
 var db;
 
@@ -99,52 +101,28 @@ app.get('/register', (request, response) => {
     });
 })
 
-app.get('/reset', (request, response) => {
-    db.dropDatabase();
-    db.collection(USERS_COLLECTION).insertOne({
-        username: "Death",
-        password: bcrypt.hashSync("Death", 10),
-        highscore: 0
-    });
-    db.collection(USERS_COLLECTION).insertOne({
-        username: "Turns",
-        password: bcrypt.hashSync("Turns", 10),
-        highscore: 0
-    });
-    db.collection(USERS_COLLECTION).insertOne({
-        username: "Seconds",
-        password: bcrypt.hashSync("Seconds", 10),
-        highscore: 0
-    });
-    db.collection(USERS_COLLECTION).insertOne({
-        username: "Pallets",
-        password: bcrypt.hashSync("Pallets", 10),
-        highscore: 0
-    });
-    response.redirect('/')
-})
 app.post('/register', (request, response) => {
     var username = request.body.username;
     var password = request.body.password;
     if (username.includes("<") || password.includes("<") || username.length > 12) {
         response.redirect('/register')
     } else {
-        db.collection(USERS_COLLECTION).findOne({
-            username: username,
-        }).then (function (doc) {
-            if (doc !== null) {
-                response.render('register.hbs', {
-                    errortext: "User already exists."
-                })
-            } else {
-                db.collection(USERS_COLLECTION).insertOne({
+                db.collection(USERS_COLLECTION).findOne({
                     username: username,
-                    password: bcrypt.hashSync(password, 10),
-                    highscore: 0
-                }) 
-                response.redirect('/');
-            }
-        })
+                }).then (function (doc) {
+                    if (doc !== null) {
+                        response.render('register.hbs', {
+                            errortext: "User already exists."
+                        })
+                    } else {
+                        db.collection(USERS_COLLECTION).insertOne({
+                            username: username,
+                            password: bcrypt.hashSync(password, 10),
+                            highscore: 0
+                        }) 
+                        response.redirect('/');
+                    }
+                })
     }
 })
 
@@ -157,72 +135,28 @@ app.get('/', (request, response) => {
 
 app.post('/submit', (request, response) => {
     var username = request.body.username;
-    var second = parseInt(request.body.seconds,10); // This is the second count
-    var corner = parseInt(request.body.corner,10); //This is the corner count
     var score = parseInt(request.body.score, 10);
-    db.collection(USERS_COLLECTION).findOne({
-            username: username,
-    }).then (function (doc) {
-            if (doc == null) {
-                response.render('home.hbs', {
-                    errortext: "Failed to compare scores."
-                })
-            } else if (doc.highscore > score) {
-                response.redirect('/pacman')
-            } else {
-                db.collection(USERS_COLLECTION).updateOne({
-                    username: username
-                }, {
-                    $set: {"highscore": score}
-            }) 
-            response.cookie('username', [username, score])
-            response.redirect('/pacman')
-        }
-    })
-    var num = 0;
-    db.collection(USERS_COLLECTION).findOne({
-        username: "Death",
-    }).then (function (doc) {
-        num = doc.highscore + 1
-        console.log(num);
-        db.collection(USERS_COLLECTION).updateOne({
-            username: "Death"
-            }, {
-                $set: {"highscore": num}
-            }) 
-    })
-    db.collection(USERS_COLLECTION).findOne({
-        username: "Seconds",
-    }).then (function (doc) {
-        num = doc.highscore + second
-        console.log(num);
-        db.collection(USERS_COLLECTION).updateOne({
-            username: "Seconds"
-            }, {
-                $set: {"highscore": num}
-            }) 
-    })
-    db.collection(USERS_COLLECTION).findOne({
-        username: "Turns",
-    }).then (function (doc) {
-        num = doc.highscore + corner
-        db.collection(USERS_COLLECTION).updateOne({
-            username: "Turns"
-            }, {
-                $set: {"highscore": num}
-            }) 
-    })
-    db.collection(USERS_COLLECTION).findOne({
-        username: "Pallets",
-    }).then (function (doc) {
-        num = doc.highscore + score/100
-        db.collection(USERS_COLLECTION).updateOne({
-            username: "Pallets"
-            }, {
-                $set: {"highscore": num}
-            }) 
-    })
+            db.collection(USERS_COLLECTION).findOne({
+                username: username,
+            }).then (function (doc) {
+                if (doc == null) {
+                    response.render('home.hbs', {
+                        errortext: "Failed to compare scores."
+                    })
+                } else if (doc.highscore > score) {
+                    response.redirect('/pacman')
+                } else {
+                    db.collection(USERS_COLLECTION).updateOne({
+                        username: username
+                    }, {
+                        $set: {"highscore": score}
+                    }) 
+                    response.cookie('username', [username, score])
+                    response.redirect('/pacman')
+                }
+            })
 })
+
 
 app.get('/pacman', (request, response) => {
     if (request.cookies.username == undefined) {
@@ -230,28 +164,6 @@ app.get('/pacman', (request, response) => {
     } else {
         db.collection(USERS_COLLECTION).find({}).sort({highscore:-1}).limit(10).toArray(function (err, result) {
             highscores = result.map(user => ({username: user.username, highscore: user.highscore}))
-            console.log(highscores)
-            var len = Object.keys(highscores).length
-            for (i = 0; i < len; i++) {
-                console.log('loop in')
-                if (highscores[i].username == "Death"){
-                    deaths = highscores[i].highscore;
-                    console.log(highscores[i]);
-                    delete highscores[i];
-                } else if (highscores[i].username == "Seconds") {
-                    seconds = highscores[i].highscore;
-                    console.log(highscores[i]);
-                    delete highscores[i];
-                } else if (highscores[i].username == "Turns") {
-                    turns = highscores[i].highscore;
-                    console.log(highscores[i]);
-                    delete highscores[i];
-                } else if (highscores[i].username == "Pallets") {
-                    pellets = highscores[i].highscore;
-                    console.log(highscores[i]);
-                    delete highscores[i];
-                }
-            }
             highscores = highscores.map(function(highscore) {
                 stringscore = highscore['highscore'].toString()
                 spaces = 29 - (highscore['username'].length + stringscore.length)
@@ -263,10 +175,6 @@ app.get('/pacman', (request, response) => {
                 values: maper.map(map_num),
                 width: 28,
                 highscores: highscores,
-                deaths: deaths,
-                seconds: seconds,
-                turns: turns,
-                pellets: pellets,
                 username: request.cookies.username[0],
                 highscore: request.cookies.username[1]
             });
