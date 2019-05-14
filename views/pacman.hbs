@@ -401,40 +401,72 @@ function wait(sec){
 
     function ghost_move() {
         for (var i = 0; i < ghost_x.length; i++) {
-            ghost_x[i] += ghost_dir_x[i] * 2;
-            ghost_y[i] += ghost_dir_y[i] * 2;
-            document.getElementById("ghost" + i).style.left = ghost_x[i] + "px";
-            document.getElementById("ghost" + i).style.top = ghost_y[i] + "px";
             if ((ghost_x[i] - basex) % 16 == 0) {
                 if ((ghost_y[i] - basey) % 16 == 0) {
-                    var temp_dir = []
+                    var temp_dirx = []
+                    var temp_diry = []
+                    var leng = 0;
                     if (ghost_dir_x[i] != 0) {
-                        if (processed_map[(ghost_y[i] - basey) / 16][(ghost_x[i] - basex) / 16 + ghost_dir_x[i]] == 0) {
+                        if (processed_map[(ghost_y[i] - basey) / 16 + 1][(ghost_x[i] - basex) / 16] != 0 || processed_map[(ghost_y[i] - basey) / 16 - 1 ][(ghost_x[i] - basex) / 16] != 0 ) {
                             if (processed_map[(ghost_y[i] - basey) / 16 - 1][(ghost_x[i] - basex) / 16] != 0) {
-                                temp_dir[temp_dir.length] = -1
+                                temp_dirx[leng] = 0;
+                                temp_diry[leng] = -1;
+                                leng++;
                             }
                             if (processed_map[(ghost_y[i] - basey) / 16 + 1][(ghost_x[i] - basex) / 16] != 0) {
-                                temp_dir[temp_dir.length] = 1
+                                temp_diry[leng] = 1;
+                                temp_dirx[leng] = 0;
+                                leng++;
                             }
-                            ghost_dir_x[i] = 0;
-                            ghost_dir_y[i] = temp_dir[Math.round(Math.random() * (temp_dir.length - 1))];
+                            if (processed_map[(ghost_y[i] - basey) / 16][(ghost_x[i] - basex) / 16 - 1] != 0 && ghost_dir_x[i] == -1) {
+                                temp_dirx[leng] = -1
+                                temp_diry[leng] = 0
+                                leng++;
+                            }
+                            if (processed_map[(ghost_y[i] - basey) / 16][(ghost_x[i] - basex) / 16 + 1] != 0 && ghost_dir_x[i] == 1) {
+                                temp_dirx[leng] = 1
+                                temp_diry[leng] = 0
+                                leng++;
+                            }
+                            var choosen = Math.round(Math.random() * (leng - 1))
+                            ghost_dir_x[i] = temp_dirx[choosen];
+                            ghost_dir_y[i] = temp_diry[choosen];
                         }
                     }
                     else if (ghost_dir_y[i] != 0) {
-                        if (processed_map[(ghost_y[i] - basey) / 16 + ghost_dir_y[i]][(ghost_x[i] - basex) / 16] == 0) {
+                        if (processed_map[(ghost_y[i] - basey) / 16][(ghost_x[i] - basex) / 16 + 1] != 0 || processed_map[(ghost_y[i] - basey) / 16][(ghost_x[i] - basex) / 16 - 1] != 0) {
                             if (processed_map[(ghost_y[i] - basey) / 16][(ghost_x[i] - basex) / 16 - 1] != 0) {
-                                temp_dir[temp_dir.length] = -1
+                                temp_dirx[leng] = -1
+                                temp_diry[leng] = 0
+                                leng++;
                             }
                             if (processed_map[(ghost_y[i] - basey) / 16][(ghost_x[i] - basex) / 16 + 1] != 0) {
-                                temp_dir[temp_dir.length] = 1
+                                temp_dirx[leng] = 1
+                                temp_diry[leng] = 0
+                                leng++;
                             }
-                            ghost_dir_y[i] = 0;
-                            ghost_dir_x[i] = temp_dir[Math.round(Math.random() * (temp_dir.length - 1))];
+                            if (processed_map[(ghost_y[i] - basey) / 16 - 1][(ghost_x[i] - basex) / 16] != 0 && ghost_dir_y[i] == -1) {
+                                temp_dirx[leng] = 0;
+                                temp_diry[leng] = -1;
+                                leng++;
+                            }
+                            if (processed_map[(ghost_y[i] - basey) / 16 + 1][(ghost_x[i] - basex) / 16] != 0 && ghost_dir_y[i] == 1) {
+                                temp_diry[leng] = 1;
+                                temp_dirx[leng] = 0;
+                                leng++;
+                            }
+                            var choosen = Math.round(Math.random() * (leng - 1))
+                            ghost_dir_y[i] = temp_diry[choosen];
+                            ghost_dir_x[i] = temp_dirx[choosen];
+                            console.log((ghost_y[i] - basey) / 16)
                         }
                     }
                 }
             }
-
+            ghost_x[i] += ghost_dir_x[i] * 2;
+            ghost_y[i] += ghost_dir_y[i] * 2;
+            document.getElementById("ghost" + i).style.left = ghost_x[i] + "px";
+            document.getElementById("ghost" + i).style.top = ghost_y[i] + "px";
 
         }
     }
