@@ -1,6 +1,6 @@
 const fs = require('fs');
-function map(){
-    var map_text = fs.readFileSync("./views/Assets/PacmanMap.txt").toString().replace(/\n/g,"");
+function map(map_n){
+    var map_text = fs.readFileSync("./views/Assets/PacmanMap" + map_n +  ".txt").toString().replace(/\n/g,"");
     var map_text_line = map_text.split("\r");
 
     for(var x = 0; x < map_text_line.length; x++){
@@ -16,4 +16,3 @@ function map(){
 module.exports={
     map
 }
-console.log(map().length);

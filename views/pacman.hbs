@@ -155,7 +155,7 @@
 
     <!-- Start submit score button -->
     <!-- TODO: Fix the submit button so it actually submits the score -->
-    <form action="/submit" method="post" class="container col-lg-5 col-sm-12 text-center">
+    <form action="/submit" method="post" class="container col-lg-5 col-sm-12 text-center" id = "scoreForm">
         <input type="hidden" id="username" name="username" value={{username}}>
         <input type="hidden" id="scoresubmit" name="score" value=0>
         <button class="btn btn-primary btn-xs col-lg-12" style="margin-bottom:4px; word-wrap:break-word;" type="button" type="submit" onclick="getscore()">Submit</button>
@@ -251,8 +251,18 @@
 
 <!-- ! Everything below this point is game code, don't touch unless you're Francis -->
 <script>
+
+function wait(sec){
+   var start = new Date().getTime();
+   var end = start;
+   while(end < start + sec * 1000) {
+     end = new Date().getTime();
+  }
+}
+
     var basex = 0;
     var basey = 0;
+    var buffer = 10;
 
     var pacimg = 1;
     var pac_xdir = 0;
@@ -270,6 +280,7 @@
 
     var score = 0;
     var first = true;
+    var pal = 0;
 
     function getscore() {
         document.getElementById("scoresubmit").value = score
@@ -305,12 +316,14 @@
                     score += 100
                     processed_map[(pac_y - basey - 8) / 16 + pac_ydir][(pac_x - basex) / 16] = 1;
                     document.getElementById("dot" + ((pac_y - basey - 8) / 16 + pac_ydir) + "_" + ((pac_x - basex) / 16)).className = "wall2";
+                    pal -=1;
                 }
             } else if (pac_ydir == -1) {
                 if (processed_map[(pac_y - basey - 8) / 16][(pac_x - basex) / 16] == 9) {
                     score += 100
                     processed_map[(pac_y - basey - 8) / 16][(pac_x - basex) / 16] = 1;
                     document.getElementById("dot" + ((pac_y - basey - 8) / 16) + "_" + ((pac_x - basex) / 16)).className = "wall2";
+                    pal -=1;
                 }
             }
             else if (pac_xdir == 1) {
@@ -318,15 +331,20 @@
                     score += 100
                     processed_map[(pac_y - basey) / 16][(pac_x - basex - 8) / 16 + pac_xdir] = 1;
                     document.getElementById("dot" + ((pac_y - basey) / 16) + "_" + ((pac_x - basex - 8) / 16 + pac_xdir)).className = "wall2";
+                    pal -=1;
                 }
             } else if (pac_xdir == -1) {
                 if (processed_map[(pac_y - basey) / 16][(pac_x - basex - 8) / 16] == 9) {
                     score += 100
                     processed_map[(pac_y - basey) / 16][(pac_x - basex - 8) / 16] = 1;
                     document.getElementById("dot" + ((pac_y - basey) / 16) + "_" + ((pac_x - basex - 8) / 16)).className = "wall2";
+                    pal -=1;
                 }
             }
             document.getElementById("score").innerHTML = score
+        }
+        if (pal == 0){
+
         }
     }
 
@@ -383,45 +401,78 @@
 
     function ghost_move() {
         for (var i = 0; i < ghost_x.length; i++) {
-            ghost_x[i] += ghost_dir_x[i] * 2;
-            ghost_y[i] += ghost_dir_y[i] * 2;
-            document.getElementById("ghost" + i).style.left = ghost_x[i] + "px";
-            document.getElementById("ghost" + i).style.top = ghost_y[i] + "px";
             if ((ghost_x[i] - basex) % 16 == 0) {
                 if ((ghost_y[i] - basey) % 16 == 0) {
-                    var temp_dir = []
+                    var temp_dirx = []
+                    var temp_diry = []
+                    var leng = 0;
                     if (ghost_dir_x[i] != 0) {
-                        if (processed_map[(ghost_y[i] - basey) / 16][(ghost_x[i] - basex) / 16 + ghost_dir_x[i]] == 0) {
+                        if (processed_map[(ghost_y[i] - basey) / 16 + 1][(ghost_x[i] - basex) / 16] != 0 || processed_map[(ghost_y[i] - basey) / 16 - 1 ][(ghost_x[i] - basex) / 16] != 0 ) {
                             if (processed_map[(ghost_y[i] - basey) / 16 - 1][(ghost_x[i] - basex) / 16] != 0) {
-                                temp_dir[temp_dir.length] = -1
+                                temp_dirx[leng] = 0;
+                                temp_diry[leng] = -1;
+                                leng++;
                             }
                             if (processed_map[(ghost_y[i] - basey) / 16 + 1][(ghost_x[i] - basex) / 16] != 0) {
-                                temp_dir[temp_dir.length] = 1
+                                temp_diry[leng] = 1;
+                                temp_dirx[leng] = 0;
+                                leng++;
                             }
-                            ghost_dir_x[i] = 0;
-                            ghost_dir_y[i] = temp_dir[Math.round(Math.random() * (temp_dir.length - 1))];
+                            if (processed_map[(ghost_y[i] - basey) / 16][(ghost_x[i] - basex) / 16 - 1] != 0 && ghost_dir_x[i] == -1) {
+                                temp_dirx[leng] = -1
+                                temp_diry[leng] = 0
+                                leng++;
+                            }
+                            if (processed_map[(ghost_y[i] - basey) / 16][(ghost_x[i] - basex) / 16 + 1] != 0 && ghost_dir_x[i] == 1) {
+                                temp_dirx[leng] = 1
+                                temp_diry[leng] = 0
+                                leng++;
+                            }
+                            var choosen = Math.round(Math.random() * (leng - 1))
+                            ghost_dir_x[i] = temp_dirx[choosen];
+                            ghost_dir_y[i] = temp_diry[choosen];
                         }
                     }
                     else if (ghost_dir_y[i] != 0) {
-                        if (processed_map[(ghost_y[i] - basey) / 16 + ghost_dir_y[i]][(ghost_x[i] - basex) / 16] == 0) {
+                        if (processed_map[(ghost_y[i] - basey) / 16][(ghost_x[i] - basex) / 16 + 1] != 0 || processed_map[(ghost_y[i] - basey) / 16][(ghost_x[i] - basex) / 16 - 1] != 0) {
                             if (processed_map[(ghost_y[i] - basey) / 16][(ghost_x[i] - basex) / 16 - 1] != 0) {
-                                temp_dir[temp_dir.length] = -1
+                                temp_dirx[leng] = -1
+                                temp_diry[leng] = 0
+                                leng++;
                             }
                             if (processed_map[(ghost_y[i] - basey) / 16][(ghost_x[i] - basex) / 16 + 1] != 0) {
-                                temp_dir[temp_dir.length] = 1
+                                temp_dirx[leng] = 1
+                                temp_diry[leng] = 0
+                                leng++;
                             }
-                            ghost_dir_y[i] = 0;
-                            ghost_dir_x[i] = temp_dir[Math.round(Math.random() * (temp_dir.length - 1))];
+                            if (processed_map[(ghost_y[i] - basey) / 16 - 1][(ghost_x[i] - basex) / 16] != 0 && ghost_dir_y[i] == -1) {
+                                temp_dirx[leng] = 0;
+                                temp_diry[leng] = -1;
+                                leng++;
+                            }
+                            if (processed_map[(ghost_y[i] - basey) / 16 + 1][(ghost_x[i] - basex) / 16] != 0 && ghost_dir_y[i] == 1) {
+                                temp_diry[leng] = 1;
+                                temp_dirx[leng] = 0;
+                                leng++;
+                            }
+                            var choosen = Math.round(Math.random() * (leng - 1))
+                            ghost_dir_y[i] = temp_diry[choosen];
+                            ghost_dir_x[i] = temp_dirx[choosen];
+                            console.log((ghost_y[i] - basey) / 16)
                         }
                     }
                 }
             }
-
+            ghost_x[i] += ghost_dir_x[i] * 2;
+            ghost_y[i] += ghost_dir_y[i] * 2;
+            document.getElementById("ghost" + i).style.left = ghost_x[i] + "px";
+            document.getElementById("ghost" + i).style.top = ghost_y[i] + "px";
 
         }
     }
 
     function pacman_upd() {
+        direction(buffer);
         block();
         pac_move();
         eat();
@@ -456,71 +507,75 @@
     }
     pacman_map(processed_map, {{ width }});
 
+    function pac_change_dir(dir){
+        switch (dir){
+            case 0:
+                pac_xdir = 0;
+                pac_ydir = -1;
+                move = 1;
+                document.getElementById("pacman").style.transform = "rotate(-90deg)";
+                break;
+            case 1:
+                pac_xdir = 0;
+                pac_ydir = 1;
+                move = 1;
+                document.getElementById("pacman").style.transform = "rotate(90deg)";
+                break;
+            case 2:
+                pac_xdir = -1;
+                pac_ydir = 0;
+                move = 1;
+                document.getElementById("pacman").style.transform = "rotate(180deg)";
+                break;
+            case 3:
+                pac_xdir = 1;
+                pac_ydir = 0;
+                move = 1;
+                document.getElementById("pacman").style.transform = "rotate(0deg)";
+        }
+    }
+
     function direction(event) {
         if (first) {
             switch (event) {
                 case 0:
                     if ((pac_y - basey) % 16 == 0 && (pac_x - basex) % 16 == 0) {
                         if (processed_map[Math.floor((pac_y - basey) / 16 - 1)][Math.floor((pac_x - basex) / 16)] != 0 && processed_map[Math.floor((pac_y - basey) / 16 - 1)][Math.floor((pac_x - basex) / 16)] != 8) {
-                            pac_xdir = 0;
-                            pac_ydir = -1;
-                            move = 1;
-                            document.getElementById("pacman").style.transform = "rotate(-90deg)";
+                            pac_change_dir(0);
                         }
                     }
                     else if (pac_ydir == 1) {
-                        pac_xdir = 0;
-                        pac_ydir = -1;
-                        move = 1;
-                        document.getElementById("pacman").style.transform = "rotate(-90deg)";
+                        pac_change_dir(0)
                     }
                     break;
                 case 1:
                     if ((pac_y - basey) % 16 == 0 && (pac_x - basex) % 16 == 0) {
                         if (processed_map[Math.floor((pac_y - basey) / 16 + 1)][Math.floor((pac_x - basex) / 16)] != 0 && processed_map[Math.floor((pac_y - basey) / 16 - 1)][Math.floor((pac_x - basex) / 16)] != 8) {
-                            pac_xdir = 0;
-                            pac_ydir = 1;
-                            move = 1;
-                            document.getElementById("pacman").style.transform = "rotate(90deg)";
+                            pac_change_dir(1);
                         }
                     }
                     else if (pac_ydir == -1) {
-                        pac_xdir = 0;
-                        pac_ydir = 1;
-                        move = 1;
-                        document.getElementById("pacman").style.transform = "rotate(90deg)";
+                        pac_change_dir(1);
                     }
                     break;
                 case 2:
                     if ((pac_y - basey) % 16 == 0 && (pac_x - basex) % 16 == 0) {
                         if (processed_map[Math.floor((pac_y - basey) / 16)][Math.floor((pac_x - basex) / 16 - 1)] != 0) {
-                            pac_xdir = -1;
-                            pac_ydir = 0;
-                            move = 1;
-                            document.getElementById("pacman").style.transform = "rotate(180deg)";
+                            pac_change_dir(2);
                         }
                     }
                     else if (pac_xdir == 1) {
-                        pac_xdir = -1;
-                        pac_ydir = 0;
-                        move = 1;
-                        document.getElementById("pacman").style.transform = "rotate(180deg)";
+                        pac_change_dir(2);
                     }
                     break;
                 case 3:
                     if ((pac_y - basey) % 16 == 0 && (pac_x - basex) % 16 == 0) {
                         if (processed_map[Math.floor((pac_y - basey) / 16)][Math.floor((pac_x - basex) / 16 + 1)] != 0) {
-                            pac_xdir = 1;
-                            pac_ydir = 0;
-                            move = 1;
-                            document.getElementById("pacman").style.transform = "rotate(0deg)";
+                            pac_change_dir(3);
                         }
                     }
                     else if (pac_xdir == -1) {
-                        pac_xdir = 1;
-                        pac_ydir = 0;
-                        move = 1;
-                        document.getElementById("pacman").style.transform = "rotate(0deg)";
+                        pac_change_dir(3);
                     }
                     break;
             }
@@ -532,22 +587,23 @@
         e = e || window.event;
 
         if (e.keyCode == '38') {
-            direction(0)
+            buffer = 0;
         }
         else if (e.keyCode == '40') {
-            direction(1)
+            buffer = 1;
         }
         else if (e.keyCode == '37') {
-            direction(2)
+            buffer = 2;
         }
         else if (e.keyCode == '39') {
-            direction(3)
+            buffer = 3;
         }
 
     }
 
-    function submitscore() {
-
+    function submit() {
+        getscore();
+        document.getElementById("scoreForm").submit();
     }
 
     function pac_death() {
@@ -558,6 +614,8 @@
             move = 0
             console.log("I'm hit")
             clearInterval(pacman_upd);
+            var changer = setInterval(submit, 3000)
+            console.log("should submit")
         }
     }
 
@@ -570,13 +628,13 @@
                     world_map.innerHTML += "<div class='dot' id='dot" + i.toString() + "_" + j.toString() + "'></img>";
                     document.getElementById("dot" + i.toString() + "_" + j.toString()).style.left = (j * 16 + basex) + "px";
                     document.getElementById("dot" + i.toString() + "_" + j.toString()).style.top = (i * 16 + basey) + "px";
-                } else if (draw_map[i][j] == 1) {
-
+                    pal += 1;
                 }
             }
         }
     }
     pacman_pallets(processed_map, {{ width }});
+    
     console.log('please no cheating')
 
 

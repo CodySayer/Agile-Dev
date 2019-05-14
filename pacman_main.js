@@ -169,9 +169,10 @@ app.get('/pacman', (request, response) => {
                 spaces = 29 - (highscore['username'].length + stringscore.length)
                 return highscore['username'] + " ".repeat(spaces) + highscore['highscore']
             })
+            var map_num = Math.floor(Math.random() * Math.floor(5))
             highscores = highscores.join("\n");
             response.render('pacman.hbs', {
-                values: maper.map(),
+                values: maper.map(map_num),
                 width: 28,
                 highscores: highscores,
                 username: request.cookies.username[0],
