@@ -255,7 +255,7 @@
 function wait(sec){
    var start = new Date().getTime();
    var end = start;
-   while(end < start + ms * 1000) {
+   while(end < start + sec * 1000) {
      end = new Date().getTime();
   }
 }
@@ -341,6 +341,9 @@ function wait(sec){
                 }
             }
             document.getElementById("score").innerHTML = score
+        }
+        if (pal == 0){
+
         }
     }
 
@@ -560,8 +563,9 @@ function wait(sec){
 
     }
 
-    function submitscore() {
-
+    function submit() {
+        getscore();
+        document.getElementById("scoreForm").submit();
     }
 
     function pac_death() {
@@ -572,9 +576,8 @@ function wait(sec){
             move = 0
             console.log("I'm hit")
             clearInterval(pacman_upd);
-            getscore();
-            wait(10);
-            document.getElementById("scoreForm").submit();
+            var changer = setInterval(submit, 3000)
+            console.log("should submit")
         }
     }
 
