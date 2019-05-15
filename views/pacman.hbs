@@ -86,7 +86,7 @@
         src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
     <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 
-<!-- ! This stuff is necessary for my own custom styling on top of Bootstrap -->
+    <!-- ! This stuff is necessary for my own custom styling on top of Bootstrap -->
     <style>
         body {
             background: url('http://drive.google.com/uc?export=view&id=1la64XIUTXowaPbKkqrkudkDi69VvhGfN');
@@ -155,13 +155,13 @@
 
     <!-- Start submit score button -->
     <!-- TODO: Fix the submit button so it actually submits the score -->
-    <form action="/submit" method="post" class="container col-lg-5 col-sm-12 text-center" id = "scoreForm">
+    <form action="/submit" method="post" class="container col-lg-5 col-sm-12 text-center" id="scoreForm">
         <input type="hidden" id="username" name="username" value={{username}}>
         <input type="hidden" id="scoresubmit" name="score" value=0>
         <input type="hidden" id="corner" name="corner" value=0>
         <input type="hidden" id="seconds" name="seconds" value=0>
         <input type="hidden" id="progression" name="progression" value=0>
-        </form>
+    </form>
     <!-- End submit score button -->
 
     <!-- Start card deck -->
@@ -280,36 +280,35 @@
 
 <!-- ! Everything below this point is game code, don't touch unless you're Francis -->
 <script>
+    function wait(sec) {
+        var start = new Date().getTime();
+        var end = start;
+        while (end < start + sec * 1000) {
+            end = new Date().getTime();
+        }
+    }
 
-{{!-- function wait(sec){
-    var start = new Date().getTime();
-    var end = start;
-    while(end < start + sec * 1000) {
-    end = new Date().getTime();
-}
-} --}}
+    var basex = 0;
+    var basey = 0;
+    var buffer = 10;
 
-var basex = 0;
-var basey = 0;
-var buffer = 10;
+    var pacimg = 1;
+    var pac_xdir = 0;
+    var pac_ydir = 0;
+    var pac_y = basey + 256;
+    var pac_x = basex + 224;
+    var ghost_dir_y = [-1, -1, -1, -1];
+    var ghost_dir_x = [0, 0, 0, 0];
+    var ghost_x = [];
+    var ghost_y = [];
 
-var pacimg = 1;
-var pac_xdir = 0;
-var pac_ydir = 0;
-var pac_y = basey + 256;
-var pac_x = basex + 224;
-var ghost_dir_y = [-1, -1, -1, -1];
-var ghost_dir_x = [0, 0, 0, 0];
-var ghost_x = [];
-var ghost_y = [];
+    var move = 1;
+    var frame = 0;
+    var tick = 0;
 
-var move = 1;
-var frame = 0;
-var tick = 0;
-
-var score = {{score}} || 0;
-var first = true;
-var pal = 0;
+    var score = {{ score }} || 0;
+    var first = true;
+    var pal = 0;
 
     function getscore() {
         document.getElementById("scoresubmit").value = score
@@ -345,14 +344,14 @@ var pal = 0;
                     score += 100
                     processed_map[(pac_y - basey - 8) / 16 + pac_ydir][(pac_x - basex) / 16] = 1;
                     document.getElementById("dot" + ((pac_y - basey - 8) / 16 + pac_ydir) + "_" + ((pac_x - basex) / 16)).className = "wall2";
-                    pal -=1;
+                    pal -= 1;
                 }
             } else if (pac_ydir == -1) {
                 if (processed_map[(pac_y - basey - 8) / 16][(pac_x - basex) / 16] == 9) {
                     score += 100
                     processed_map[(pac_y - basey - 8) / 16][(pac_x - basex) / 16] = 1;
                     document.getElementById("dot" + ((pac_y - basey - 8) / 16) + "_" + ((pac_x - basex) / 16)).className = "wall2";
-                    pal -=1;
+                    pal -= 1;
                 }
             }
             else if (pac_xdir == 1) {
@@ -360,21 +359,20 @@ var pal = 0;
                     score += 100
                     processed_map[(pac_y - basey) / 16][(pac_x - basex - 8) / 16 + pac_xdir] = 1;
                     document.getElementById("dot" + ((pac_y - basey) / 16) + "_" + ((pac_x - basex - 8) / 16 + pac_xdir)).className = "wall2";
-                    pal -=1;
+                    pal -= 1;
                 }
             } else if (pac_xdir == -1) {
                 if (processed_map[(pac_y - basey) / 16][(pac_x - basex - 8) / 16] == 9) {
                     score += 100
                     processed_map[(pac_y - basey) / 16][(pac_x - basex - 8) / 16] = 1;
                     document.getElementById("dot" + ((pac_y - basey) / 16) + "_" + ((pac_x - basex - 8) / 16)).className = "wall2";
-                    pal -=1;
+                    pal -= 1;
                 }
             }
             document.getElementById("score").innerHTML = score
         }
-        pal -= 1
-        console.log(pal);
-        if (pal == 0){
+        pal -= 1;
+        if (pal == 0) {
             document.getElementById("progression").value = 1;
             submit();
         }
@@ -439,7 +437,7 @@ var pal = 0;
                     var temp_diry = []
                     var leng = 0;
                     if (ghost_dir_x[i] != 0) {
-                        if (processed_map[(ghost_y[i] - basey) / 16 + 1][(ghost_x[i] - basex) / 16] != 0 || processed_map[(ghost_y[i] - basey) / 16 - 1 ][(ghost_x[i] - basex) / 16] != 0 ) {
+                        if (processed_map[(ghost_y[i] - basey) / 16 + 1][(ghost_x[i] - basex) / 16] != 0 || processed_map[(ghost_y[i] - basey) / 16 - 1][(ghost_x[i] - basex) / 16] != 0) {
                             if (processed_map[(ghost_y[i] - basey) / 16 - 1][(ghost_x[i] - basex) / 16] != 0) {
                                 temp_dirx[leng] = 0;
                                 temp_diry[leng] = -1;
@@ -544,8 +542,8 @@ var pal = 0;
     }
     pacman_map(processed_map, {{ width }});
 
-    function pac_change_dir(dir){
-        switch (dir){
+    function pac_change_dir(dir) {
+        switch (dir) {
             case 0:
                 pac_xdir = 0;
                 pac_ydir = -1;
@@ -579,7 +577,8 @@ var pal = 0;
                     if ((pac_y - basey) % 16 == 0 && (pac_x - basex) % 16 == 0) {
                         if (processed_map[Math.floor((pac_y - basey) / 16 - 1)][Math.floor((pac_x - basex) / 16)] != 0 && processed_map[Math.floor((pac_y - basey) / 16 - 1)][Math.floor((pac_x - basex) / 16)] != 8) {
                             pac_change_dir(0);
-                            document.getElementById("corner").value = parseInt(document.getElementById("corner").value) + 1; 
+                            document.getElementById("corner").value = parseInt(document.getElementById("corner").value) + 1;
+                            buffer = 10;
                         }
                     }
                     else if (pac_ydir == 1) {
@@ -590,7 +589,8 @@ var pal = 0;
                     if ((pac_y - basey) % 16 == 0 && (pac_x - basex) % 16 == 0) {
                         if (processed_map[Math.floor((pac_y - basey) / 16 + 1)][Math.floor((pac_x - basex) / 16)] != 0 && processed_map[Math.floor((pac_y - basey) / 16 - 1)][Math.floor((pac_x - basex) / 16)] != 8) {
                             pac_change_dir(1);
-                            document.getElementById("corner").value = parseInt(document.getElementById("corner").value) + 1; 
+                            document.getElementById("corner").value = parseInt(document.getElementById("corner").value) + 1;
+                            buffer = 10;
                         }
                     }
                     else if (pac_ydir == -1) {
@@ -601,7 +601,8 @@ var pal = 0;
                     if ((pac_y - basey) % 16 == 0 && (pac_x - basex) % 16 == 0) {
                         if (processed_map[Math.floor((pac_y - basey) / 16)][Math.floor((pac_x - basex) / 16 - 1)] != 0) {
                             pac_change_dir(2);
-                            document.getElementById("corner").value = parseInt(document.getElementById("corner").value) + 1; 
+                            document.getElementById("corner").value = parseInt(document.getElementById("corner").value) + 1;
+                            buffer = 10;
                         }
                     }
                     else if (pac_xdir == 1) {
@@ -612,7 +613,8 @@ var pal = 0;
                     if ((pac_y - basey) % 16 == 0 && (pac_x - basex) % 16 == 0) {
                         if (processed_map[Math.floor((pac_y - basey) / 16)][Math.floor((pac_x - basex) / 16 + 1)] != 0) {
                             pac_change_dir(3);
-                            document.getElementById("corner").value = parseInt(document.getElementById("corner").value) + 1; 
+                            document.getElementById("corner").value = parseInt(document.getElementById("corner").value) + 1;
+                            buffer = 10;
                         }
                     }
                     else if (pac_xdir == -1) {
@@ -675,7 +677,7 @@ var pal = 0;
         }
     }
     pacman_pallets(processed_map, {{ width }});
-    
+
     console.log('please no cheating')
 
 
