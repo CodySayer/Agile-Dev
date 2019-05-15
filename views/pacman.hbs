@@ -161,8 +161,7 @@
         <input type="hidden" id="corner" name="corner" value=0>
         <input type="hidden" id="seconds" name="seconds" value=0>
         <input type="hidden" id="progression" name="progression" value=0>
-        <button class="btn btn-primary btn-xs col-lg-12" style="margin-bottom:4px; word-wrap:break-word;" type="button" type="submit" onclick="getscore()">Submit</button>
-    </form>
+        </form>
     <!-- End submit score button -->
 
     <!-- Start card deck -->
@@ -375,7 +374,7 @@ var pal = 0;
         }
         pal -= 1
         console.log(pal);
-        if (pal <= 0){
+        if (pal == 0){
             document.getElementById("progression").value = 1;
             submit();
         }

@@ -164,6 +164,58 @@ app.post('/submit', (request, response) => {
     var second = parseInt(request.body.seconds, 10); // This is the second count
     var corner = parseInt(request.body.corner, 10); //This is the corner count
     db.collection(USERS_COLLECTION).findOne({
+        username: "Death",
+    }).then(function (doc) {
+        console.log("death" + doc.highscore);
+        num = doc.highscore + 1
+        db.collection(USERS_COLLECTION).updateOne({
+            username: "Death"
+        }, {
+            $set: {
+                "highscore": num
+            }
+        })
+    })
+    db.collection(USERS_COLLECTION).findOne({
+        username: "Seconds",
+    }).then(function (doc) {
+        console.log("Seconds" + doc.highscore);
+        num = doc.highscore + second
+        db.collection(USERS_COLLECTION).updateOne({
+            username: "Seconds"
+        }, {
+            $set: {
+                "highscore": num
+            }
+        })
+    })
+    db.collection(USERS_COLLECTION).findOne({
+        username: "Turns",
+    }).then(function (doc) {
+        console.log("Turns" + doc.highscore);
+        num = doc.highscore + corner
+        db.collection(USERS_COLLECTION).updateOne({
+            username: "Turns"
+        }, {
+            $set: {
+                "highscore": num
+            }
+        })
+    })
+    db.collection(USERS_COLLECTION).findOne({
+    username: "Pallets",
+    }).then(function (doc) {
+        console.log("Pallets" + doc.highscore);
+    num = doc.highscore + score / 100
+    db.collection(USERS_COLLECTION).updateOne({
+        username: "Pallets"
+    }, {
+        $set: {
+            "highscore": num
+        }
+    })
+    })
+    db.collection(USERS_COLLECTION).findOne({
         username: username,
     }).then (function (doc) {
         if (doc == null) {
@@ -187,54 +239,7 @@ app.post('/submit', (request, response) => {
         }
     })
     var num = 0;
-    db.collection(USERS_COLLECTION).findOne({
-        username: "Death",
-    }).then(function (doc) {
-        num = doc.highscore + 1
-        db.collection(USERS_COLLECTION).updateOne({
-            username: "Death"
-        }, {
-            $set: {
-                "highscore": num
-            }
-        })
-    })
-    db.collection(USERS_COLLECTION).findOne({
-        username: "Seconds",
-    }).then(function (doc) {
-        num = doc.highscore + second
-        db.collection(USERS_COLLECTION).updateOne({
-            username: "Seconds"
-        }, {
-            $set: {
-                "highscore": num
-            }
-        })
-    })
-    db.collection(USERS_COLLECTION).findOne({
-        username: "Turns",
-    }).then(function (doc) {
-        num = doc.highscore + corner
-        db.collection(USERS_COLLECTION).updateOne({
-            username: "Turns"
-        }, {
-            $set: {
-                "highscore": num
-            }
-        })
-    })
-    db.collection(USERS_COLLECTION).findOne({
-    username: "Pallets",
-    }).then(function (doc) {
-    num = doc.highscore + score / 100
-    db.collection(USERS_COLLECTION).updateOne({
-        username: "Pallets"
-    }, {
-        $set: {
-            "highscore": num
-        }
-    })
-    })
+
 })
 
 
