@@ -136,25 +136,29 @@ app.get('/', (request, response) => {
 app.post('/submit', (request, response) => {
     var username = request.body.username;
     var score = parseInt(request.body.score, 10);
-            db.collection(USERS_COLLECTION).findOne({
-                username: username,
-            }).then (function (doc) {
-                if (doc == null) {
-                    response.render('home.hbs', {
-                        errortext: "Failed to compare scores."
-                    })
-                } else if (doc.highscore > score) {
-                    response.redirect('/pacman')
-                } else {
-                    db.collection(USERS_COLLECTION).updateOne({
-                        username: username
-                    }, {
-                        $set: {"highscore": score}
-                    }) 
-                    response.cookie('username', [username, score])
-                    response.redirect('/pacman')
-                }
+    db.collection(USERS_COLLECTION).findOne({
+        username: username,
+    }).then (function (doc) {
+        if (doc == null) {
+            response.render('home.hbs', {
+                errortext: "Failed to compare scores."
             })
+        }else {
+            if(doc.highscore < score){
+                db.collection(USERS_COLLECTION).updateOne({
+                    username: username
+                }, {
+                    $set: {"highscore": score}
+                })
+            }
+            if(request.body.progression == 0){
+                score = 0;
+            }
+            response.cookie('username', [username, score])
+            response.cookie('score', score)
+            response.redirect('/pacman')
+        }
+    })
 })
 
 
@@ -176,7 +180,8 @@ app.get('/pacman', (request, response) => {
                 width: 28,
                 highscores: highscores,
                 username: request.cookies.username[0],
-                highscore: request.cookies.username[1]
+                highscore: request.cookies.username[1],
+                score: request.cookies.score || 0
             });
         });
     }

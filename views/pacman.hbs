@@ -158,6 +158,7 @@
     <form action="/submit" method="post" class="container col-lg-5 col-sm-12 text-center" id = "scoreForm">
         <input type="hidden" id="username" name="username" value={{username}}>
         <input type="hidden" id="scoresubmit" name="score" value=0>
+        <input type="hidden" id="progression" name="progression" value=0>
         <button class="btn btn-primary btn-xs col-lg-12" style="margin-bottom:4px; word-wrap:break-word;" type="button" type="submit" onclick="getscore()">Submit</button>
     </form>
     <!-- End submit score button -->
@@ -260,27 +261,27 @@ function wait(sec){
   }
 }
 
-    var basex = 0;
-    var basey = 0;
-    var buffer = 10;
+var basex = 0;
+var basey = 0;
+var buffer = 10;
 
-    var pacimg = 1;
-    var pac_xdir = 0;
-    var pac_ydir = 0;
-    var pac_y = basey + 256;
-    var pac_x = basex + 224;
-    console.log("y = " + pac_y + " x = " + pac_x)
-    var ghost_dir_y = [-1, -1, -1, -1];
-    var ghost_dir_x = [0, 0, 0, 0];
-    var ghost_x = [];
-    var ghost_y = [];
+var pacimg = 1;
+var pac_xdir = 0;
+var pac_ydir = 0;
+var pac_y = basey + 256;
+var pac_x = basex + 224;
+console.log("y = " + pac_y + " x = " + pac_x)
+var ghost_dir_y = [-1, -1, -1, -1];
+var ghost_dir_x = [0, 0, 0, 0];
+var ghost_x = [];
+var ghost_y = [];
 
-    var move = 1;
-    var frame = 0;
+var move = 1;
+var frame = 0;
 
-    var score = 0;
-    var first = true;
-    var pal = 0;
+var score = {{score}} || 0;
+var first = true;
+var pal = 0;
 
     function getscore() {
         document.getElementById("scoresubmit").value = score
@@ -343,8 +344,11 @@ function wait(sec){
             }
             document.getElementById("score").innerHTML = score
         }
-        if (pal == 0){
-
+        pal -= 1
+        console.log(pal);
+        if (pal <= 0){
+            document.getElementById("progression").value = 1;
+            submit();
         }
     }
 
