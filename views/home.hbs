@@ -2,27 +2,176 @@
 <html>
 
 <head>
+    <!--! most of the classes you will see in this code is calling items from Bootstrap-->
+    <!--! Bootstrap is very handy because it allows a very pretty scaleable website for a multitude of devices-->
+    <!--! you will see classes with names like col-lg-x or col-md-x. These dictate item width on different screen sizes-->
+    <!--! Bootstrap natively has 12 columns to use at any given time which scale horizontally evenly based on screen size-->
+    <!--! I really suggest you touch up a little on Bootstrap documentation. It's not complex and very handy to know how to implement-->
+    <!--! furthermore, when googling how to implement something, I suggest you throw 'Bootstrap' in the search term. It might make things a little easier-->
+
+    <!--* this meta tag allows the website to scale based on screen size-->
+    <meta name="viewport" content="width=device-width">
+    <!--* This meta tag just sets the text to unicode 8-->
+    <meta charset="UTF-8">
+
+    <!--* the following code block sets colors for various mobile clients (including windows phone lol)-->
+    <!--* change the hex value to change the color it will set the browser bar-->
+    <!-- Chrome, Firefox OS and Opera -->
+    <meta name="theme-color" content="#FF0090">
+    <!-- Windows Phone -->
+    <meta name="msapplication-navbutton-color" content="#FF0090">
+    <!-- iOS Safari -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="#FF0090">
+
+    <!--* this sets the title of the webpage, what displays in the tab title-->
+    <title id="headermessage">P0c-Man</title>
+    <!--* this just calls the Bootstrap stylesheet-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <!--* This sets the favicon to an image. You can change the URL to change the image-->
+    <link rel="icon" href="http://drive.google.com/uc?export=view&id=1h9oN703lENBKW_68h_P47ZxbUvzkFWBK">
+    <!--* Script tags contain javasctipt. Duh. Use this to include any javascript you write in the page-->
+    <link rel="stylesheet" href="pacman.css">
+    <script>
+        //* this runs the headerChange and footerChange function on page load
+        window.onload = function () {
+            //! if you want to disable headerChange, remove the headerChange(); line
+            headerChange();
+            //* please leave footerChange intact
+            footerChange();
+        }
+        //* the function that selects a random string from the array to insert into the header
+        var headerChange = function () {
+            //* the array of phrases to insert
+            //! if adding or removing phrases, make sure the key is numerated starting from 1
+            var msgArr = {
+                1: "I always lie.",
+                2: "Space is big",
+                3: "You're my favorite set",
+                4: "GONE ROGUE!",
+                5: "SEND HELP!!!",
+                6: "hello hello",
+                7: "send it over"
+            };
+
+            var msgLen = Object.keys(msgArr).length;
+
+            var num = Math.floor((Math.random() * msgLen) + 1);
+
+            var msg = msgArr[num];
+
+            document.getElementById("headermessage").innerHTML = msg;
+        }
+        var footerChange = function () {
+            var msgArr = {
+                1: "I always lie.",
+                2: "Space is big",
+                3: "You're my favorite set",
+                4: "GONE ROGUE!",
+                5: "SEND HELP!!!",
+                6: "hello hello",
+                7: "send it over"
+            };
+            var msgLen = Object.keys(msgArr).length;
+            var num = Math.floor((Math.random() * msgLen) + 1);
+            var msg = msgArr[num];
+            document.getElementById("footermessage").innerHTML = msg;
+        }
+    </script>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+
+    <!-- ! This stuff is necessary for my own custom styling on top of Bootstrap -->
+    <style>
+        body {
+            background: url('http://drive.google.com/uc?export=view&id=1la64XIUTXowaPbKkqrkudkDi69VvhGfN');
+            min-width: 100%;
+            min-height: 100%;
+            position: relative;
+            background-position: center;
+        }
+
+        .size2 {
+            position: fixed;
+            right: 0;
+            top: 0;
+            min-height: 100%;
+        }
+
+        .height-fluid {
+            height: 100%;
+            width: auto;
+        }
+
+        .container {
+            border-radius: 5px;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+        }
+
+        li {
+            list-style: none;
+        }
+
+        #charname {
+            display: none;
+        }
+    </style>
+
     <meta charset="uft-8">
     <title>POC-MAN</title>
     <link rel="stylesheet" href="home.css">
 </head>
+
 <body>
-{{>Navbar}}
-    <p id="title">POC-MAN</p>
+    <div>
+        <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: rgba(0,0,0,0.7);">
+            <a class="navbar-brand text-light">P0C-MAN</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/register">Register</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+    <br>
+    <br>
+    <br>
     <img class="logo" src="Assets/logo.png">
-
-<form class="text" method="post" action="/login">
-    <label style="font-size: 2em">LOGIN</label><br>
-    <input type="text" name="username" placeholder="Username" maxlength="12" required>
-    <input type="password" name="password" placeholder="Password" required><br><br>
-    <input type="submit" id="submitbutton" value="Play Now">
-    <p id ="errortext">{{errortext}}</p>
-</form>
-
-<marquee direction="right" style="padding-top: 10%"><img src="Assets/animated.gif" height="80" width="80"></marquee>
+    <div class="container col-xl-10 col-lg-12 col-md-12 col-sm-12" style="background-color: rgba(0,0,0,0);">
+        <form method="post" action="/login" class="container col-lg-5 col-sm-12 text-center"
+            style="background-color: rgba(0,0,0,0.4);">
+            <h5 class="card-title" style="color:white;">Login</h5>
+            <input type="text" name="username" placeholder="Username" maxlength="12" required><br><br>
+            <input type="password" name="password" placeholder="Password" required><br><br>
+            <input class="btn btn-primary btn-xs col-lg-12" style="margin-bottom:4px; word-wrap:break-word;"
+                type="submit" value="Play Now">
+            <p id="errortext">{{errortext}}</p>
+        </form>
+    </div>
+    <marquee direction="right" style="padding-top: 5%"><img src="Assets/animated.gif" height="80" width="80"></marquee>
 
 </body>
-<footer id="footer">
+{{!-- <footer id="footer">
     <p class="text">A <i>better</i> project by Francis Gau, Cody Sayer, Sahil Desai, and Cody Chand</p>
-</footer>
+</footer> --}}
+<div id="footer" class="container-fluid col-xl-12" style="background-color: rgba(0,0,0,0.7);">
+    <footer class="page-footer text-center text-muted">
+        <br>
+        <p class="text">A <i>better</i> project by Francis Gau, Cody Sayer, Sahil Desai, and Cody Chand</p>
+        <p class="text-muted" id="footermessage"></p>
+        <small class="text-muted">©2019 Team P0c-Man</small>
+    </footer>
+</div>
+
 </html>

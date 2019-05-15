@@ -101,6 +101,31 @@ app.get('/register', (request, response) => {
     });
 })
 
+app.get('/reset', (request, response) => {
+    db.dropDatabase();
+    db.collection(USERS_COLLECTION).insertOne({
+        username: "Death",
+        password: bcrypt.hashSync("Death", 10),
+        highscore: 0
+    });
+    db.collection(USERS_COLLECTION).insertOne({
+        username: "Turns",
+        password: bcrypt.hashSync("Turns", 10),
+        highscore: 0
+    });
+    db.collection(USERS_COLLECTION).insertOne({
+        username: "Seconds",
+        password: bcrypt.hashSync("Seconds", 10),
+        highscore: 0
+    });
+    db.collection(USERS_COLLECTION).insertOne({
+        username: "Pallets",
+        password: bcrypt.hashSync("Pallets", 10),
+        highscore: 0
+    });
+    response.redirect('/')
+})
+
 app.post('/register', (request, response) => {
     var username = request.body.username;
     var password = request.body.password;
@@ -136,6 +161,8 @@ app.get('/', (request, response) => {
 app.post('/submit', (request, response) => {
     var username = request.body.username;
     var score = parseInt(request.body.score, 10);
+    var second = parseInt(request.body.seconds, 10); // This is the second count
+    var corner = parseInt(request.body.corner, 10); //This is the corner count
     db.collection(USERS_COLLECTION).findOne({
         username: username,
     }).then (function (doc) {
@@ -159,6 +186,55 @@ app.post('/submit', (request, response) => {
             response.redirect('/pacman')
         }
     })
+    var num = 0;
+    db.collection(USERS_COLLECTION).findOne({
+        username: "Death",
+    }).then(function (doc) {
+        num = doc.highscore + 1
+        db.collection(USERS_COLLECTION).updateOne({
+            username: "Death"
+        }, {
+            $set: {
+                "highscore": num
+            }
+        })
+    })
+    db.collection(USERS_COLLECTION).findOne({
+        username: "Seconds",
+    }).then(function (doc) {
+        num = doc.highscore + second
+        db.collection(USERS_COLLECTION).updateOne({
+            username: "Seconds"
+        }, {
+            $set: {
+                "highscore": num
+            }
+        })
+    })
+    db.collection(USERS_COLLECTION).findOne({
+        username: "Turns",
+    }).then(function (doc) {
+        num = doc.highscore + corner
+        db.collection(USERS_COLLECTION).updateOne({
+            username: "Turns"
+        }, {
+            $set: {
+                "highscore": num
+            }
+        })
+    })
+    db.collection(USERS_COLLECTION).findOne({
+    username: "Pallets",
+    }).then(function (doc) {
+    num = doc.highscore + score / 100
+    db.collection(USERS_COLLECTION).updateOne({
+        username: "Pallets"
+    }, {
+        $set: {
+            "highscore": num
+        }
+    })
+    })
 })
 
 
@@ -168,6 +244,22 @@ app.get('/pacman', (request, response) => {
     } else {
         db.collection(USERS_COLLECTION).find({}).sort({highscore:-1}).limit(10).toArray(function (err, result) {
             highscores = result.map(user => ({username: user.username, highscore: user.highscore}))
+            var len = Object.keys(highscores).length
+            for (i = 0; i < len; i++) {
+                if (highscores[i].username == "Death") {
+                    deaths = highscores[i].highscore;
+                    delete highscores[i];
+                } else if (highscores[i].username == "Seconds") {
+                    seconds = highscores[i].highscore;
+                    delete highscores[i];
+                } else if (highscores[i].username == "Turns") {
+                    turns = highscores[i].highscore;
+                    delete highscores[i];
+                } else if (highscores[i].username == "Pallets") {
+                    pellets = highscores[i].highscore;
+                    delete highscores[i];
+                }
+            }
             highscores = highscores.map(function(highscore) {
                 stringscore = highscore['highscore'].toString()
                 spaces = 29 - (highscore['username'].length + stringscore.length)
@@ -179,6 +271,10 @@ app.get('/pacman', (request, response) => {
                 values: maper.map(map_num),
                 width: 28,
                 highscores: highscores,
+                deaths: deaths,
+                seconds: seconds,
+                turns: turns,
+                pellets: pellets,
                 username: request.cookies.username[0],
                 highscore: request.cookies.username[1],
                 score: request.cookies.score || 0
