@@ -74,7 +74,7 @@ app.post('/login', (request, response) => {
                 username: username
             }).toArray((err, result) => {
                 if (err || result[0] == undefined) {
-                        response.render('home.hbs',{
+                        response.status(200).render('home.hbs', {
                             errortext: "Invalid username/password."
                         });
                 } else {
@@ -85,9 +85,9 @@ app.post('/login', (request, response) => {
                             username,
                             result[0].highscore
                         ]);
-                        response.redirect("/pacman");
+                        response.status(200).redirect("/pacman");
                     } else {
-                        response.render("home.hbs", {
+                        response.status(200).render("home.hbs", {
                             errortext: "Invalid username/password."
                         });
                     }
@@ -123,6 +123,11 @@ app.get('/reset', (request, response) => {
         password: bcrypt.hashSync("Pallets", 10),
         highscore: 0
     });
+    db.collection(USERS_COLLECTION).instertOne({
+        username: "testname",
+        password: "testpass",
+        highscore: 0
+    });
     response.redirect('/')
 })
 
@@ -153,7 +158,7 @@ app.post('/register', (request, response) => {
 
 app.get('/', (request, response) => {
     response.clearCookie("username")
-    response.render('home.hbs', {
+    response.status(200).render('home.hbs', {
         errortext: ""
     });
 })

@@ -1,14 +1,26 @@
 var chai = require('chai')
+var expect = require('../pacman_main')
+var supertest = require('supertest')
+var should = require('should')
 var pacman = require('../pacman_read_file.js')
 assert = chai.assert;
-describe('Map', function() {
-  describe('map()', function() {
-    it('pacman map height should be 30', function() {
-      console.log(pacman.map());
-      assert.equal(pacman.map().length, 30);
-    });
-    it('pacman map width should be 28', function() {
-      assert.equal(pacman.map()[0].length, 28);
-    });
+
+var server = supertest.agent("http://localhost:8080");
+
+describe("P0c-Man Unit Test", function () {
+
+  // #1 should return home page
+
+  it("Testing home page", function (done) {
+
+    // calling home page api
+    server
+      .get("/")
+      .expect(200) // THis is HTTP response
+      .end(function (err, res) {
+        // HTTP status should be 200
+        res.status.should.equal(200);
+        done();
+      });
   });
 });
