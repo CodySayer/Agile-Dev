@@ -275,7 +275,7 @@ app.post("/submit", (request, response) => {
                 if (request.body.progression == 0) {
                     score = 0;
                 }
-                response.cookie("username", [username, score]);
+                response.cookie("username", [username, doc.highscore]);
                 response.cookie("score", score);
                 response.redirect("/pacman");
             }
