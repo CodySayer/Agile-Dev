@@ -1,5 +1,5 @@
 var chai = require('chai')
-var expect = require('../pacman_main')
+// var expect = require('../pacman_main')
 var supertest = require('supertest')
 var should = require('should')
 var pacman = require('../pacman_read_file.js')
