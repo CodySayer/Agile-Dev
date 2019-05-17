@@ -21,6 +21,6 @@ describe("P0c-Man Unit Test", function () {
       .get("/")
       .expect(200) // THis is HTTP response
       .end(done());
-    server.close();
   });
+  server.close();
 });
