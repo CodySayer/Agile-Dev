@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <!--! most of the classes you will see in this code is calling items from Bootstrap-->
     <!--! Bootstrap is very handy because it allows a very pretty scaleable website for a multitude of devices-->
@@ -125,37 +126,40 @@
     <title>POC-MAN</title>
     <link rel="stylesheet" href="home.css">
 </head>
+
 <body>
-<div>
-    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: rgba(0,0,0,0.7);">
-        <a class="navbar-brand text-light">P0C-MAN</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="/register">Register</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
-</div>
-<br>
-<br>
-<br>
-<img class="logo" src="Assets/logo.png">
-<div class="container col-xl-10 col-lg-12 col-md-12 col-sm-12" style="background-color: rgba(0,0,0,0);">
-    <form method="post" action="/login" class="container col-lg-5 col-sm-12 text-center" style="background-color: rgba(0,0,0,0.4);">
-        <h5 class="card-title" style="color:white;">Login</h5>
-        <input type="text" name="username" placeholder="Username" maxlength="12" required><br><br>
-        <input type="password" name="password" placeholder="Password" required><br><br>
-        <input class="btn btn-primary btn-xs col-lg-12" style="margin-bottom:4px; word-wrap:break-word;" type="submit" value="Play Now">
-        <p id="errortext">{{errortext}}</p>
-    </form>
-</div>
-<marquee direction="right" style="padding-top: 5%"><img src="Assets/animated.gif" height="80" width="80"></marquee>
+    <div>
+        <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: rgba(0,0,0,0.7);">
+            <a class="navbar-brand text-light">P0C-MAN</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/register">Register</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+    <br>
+    <br>
+    <br>
+    <img class="logo" src="Assets/logo.png">
+    <div class="container col-xl-10 col-lg-12 col-md-12 col-sm-12" style="background-color: rgba(0,0,0,0);">
+        <form method="post" action="/login" class="container col-lg-5 col-sm-12 text-center"
+            style="background-color: rgba(0,0,0,0.4);">
+            <h5 class="card-title" style="color:white;">Login</h5>
+            <input type="text" name="username" placeholder="Username" maxlength="12" required><br><br>
+            <input type="password" name="password" placeholder="Password" required><br><br>
+            <input class="btn btn-primary btn-xs col-lg-12" style="margin-bottom:4px; word-wrap:break-word;"
+                type="submit" value="Play Now">
+            <p id="errortext">{{errortext}}</p>
+        </form>
+    </div>
+    <marquee direction="right" style="padding-top: 5%"><img src="Assets/animated.gif" height="80" width="80"></marquee>
 
 </body>
 {{!-- <footer id="footer">
@@ -169,4 +173,5 @@
         <small class="text-muted">©2019 Team P0c-Man</small>
     </footer>
 </div>
+
 </html>

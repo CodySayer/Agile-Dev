@@ -1,0 +1,5 @@
+language: node_js
+node_js:
+- npm "stable"
+services:
+- mongodb
