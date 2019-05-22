@@ -22,5 +22,6 @@ describe("P0c-Man Unit Test", function () {
       .expect(200) // THis is HTTP response
       .end(done());
   });
-  server.close();
 });
+
+console.log("testing is forever broken");
