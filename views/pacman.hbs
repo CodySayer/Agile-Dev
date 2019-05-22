@@ -155,7 +155,7 @@
 
     <!-- Start submit score button -->
     <!-- TODO: Fix the submit button so it actually submits the score -->
-    <form action="/submit" method="post" class="container col-lg-5 col-sm-12 text-center" id="scoreForm">
+    <form action="/submit" method="post" id="scoreForm">
         <input type="hidden" id="username" name="username" value={{username}}>
         <input type="hidden" id="scoresubmit" name="score" value=0>
         <input type="hidden" id="corner" name="corner" value=0>
@@ -181,7 +181,7 @@
             <div id="highscorebox" class="card-body" style="height:720px; object-fit:contain;">
                 <h5 class="card-title">High-Scores</h5>
                 <pre id="highscorelist">{{highscores}}</p>
-                                <p id="personalhighscore">Hi <b>{{username}}</b>!<br>Your high score: <b>{{highscore}}</b></p>
+                                <p id="personalhighscore">Hi <b>{{username}}</b>!<br>Your previous high score: <b>{{highscore}}</b></p>
                                 <br>
             </div>
         </div>
@@ -252,11 +252,6 @@
                             <th scope="row"></th>
                             <td>Seconds Played</td>
                             <td>{{seconds}}</td>
-                        </tr>
-                        <tr>
-                            <th scope="row"></th>
-                            <td>Levels Played</td>
-                            <td>(future feature)</td>
                         </tr>
                     </tbody>
                 </table>
@@ -642,6 +637,12 @@
         }
 
     }
+
+    window.addEventListener("keydown", function (e) {
+            if ([37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+                e.preventDefault();
+            }
+        }, false);
 
     function submit() {
         getscore();
