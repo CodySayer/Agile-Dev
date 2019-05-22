@@ -211,7 +211,7 @@
                             return false;
                         });
                         socket.on('chat message', function (msg) {
-                            var userMsg = ("{{username}}" + ": " + msg)
+                            var userMsg = (msg)
                             $('#messages').append($('<li>').text(userMsg));
                             window.scrollTo(0, document.body.scrollHeight);
                         });
