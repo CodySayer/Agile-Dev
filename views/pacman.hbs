@@ -155,7 +155,7 @@
 
     <!-- Start submit score button -->
     <!-- TODO: Fix the submit button so it actually submits the score -->
-    <form action="/submit" method="post" id="scoreForm">
+    <form action="/submit" method="post" class="container col-lg-5 col-sm-12 text-center" id="scoreForm">
         <input type="hidden" id="username" name="username" value={{username}}>
         <input type="hidden" id="scoresubmit" name="score" value=0>
         <input type="hidden" id="corner" name="corner" value=0>
@@ -253,6 +253,11 @@
                             <td>Seconds Played</td>
                             <td>{{seconds}}</td>
                         </tr>
+                        <tr>
+                            <th scope="row"></th>
+                            <td>Levels Played</td>
+                            <td>(future feature)</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -308,7 +313,7 @@
     function getscore() {
         document.getElementById("scoresubmit").value = score
     }
-
+    getscore()
     function proc_map(map_vals, width) {
         var post_map = []
         for (var i = 0; i < map_vals.length / width; i++) {
@@ -366,6 +371,7 @@
             }
             document.getElementById("score").innerHTML = score
         }
+        pal -= 1;
         if (pal == 0) {
             document.getElementById("progression").value = 1;
             submit();
@@ -637,12 +643,6 @@
         }
 
     }
-
-    window.addEventListener("keydown", function(e) {
-    if([37, 38, 39, 40].indexOf(e.keyCode) > -1) {
-        e.preventDefault();
-    }
-}, false);
 
     function submit() {
         getscore();

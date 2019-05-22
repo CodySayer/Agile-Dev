@@ -321,7 +321,7 @@ app.get("/pacman", (request, response) => {
                         highscore["username"] + " ".repeat(spaces) + highscore["highscore"]
                     );
                 });
-                var map_num = Math.floor(Math.random() * Math.floor(5));
+                var map_num = Math.floor(Math.random() * Math.floor(10));
                 highscores = highscores.join("\n");
                 response.render("pacman.hbs", {
                     values: maper.map(map_num),
